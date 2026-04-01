@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { completion } from '@rocketnew/llm-sdk';
 
 function isAdminAuthenticated(request: NextRequest): boolean {
   const cookie = request.cookies.get('admin_authenticated')?.value;
@@ -72,50 +73,34 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Messages array is required' }, { status: 400 });
   }
 
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ error: 'ANTHROPIC API key is not configured' }, { status: 400 });
+  }
+
   try {
-    // Build messages with system prompt as first message
     const allMessages = [
       { role: 'system', content: SYSTEM_PROMPT },
       ...messages.map((m) => ({ role: m.role, content: m.content })),
     ];
 
-    // Use the existing /api/ai/chat-completion route which correctly handles Anthropic auth
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/ai/chat-completion`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        provider: 'ANTHROPIC',
-        model: 'claude-sonnet-4-5-20250929',
-        messages: allMessages,
-        stream: false,
-        parameters: {
-          max_tokens: 2048,
-        },
-      }),
+    const response = await completion({
+      model: 'claude-sonnet-4-5-20250929',
+      messages: allMessages,
+      stream: false,
+      api_key: apiKey,
+      max_tokens: 2048,
     });
 
-    if (!response.ok) {
-      const errData = await response.json().catch(() => ({}));
-      console.error('AI Agent upstream error:', errData);
-      return NextResponse.json(
-        { error: errData.error || `AI request failed with status ${response.status}` },
-        { status: response.status }
-      );
-    }
-
-    const data = await response.json();
-
-    // Extract text from the standard chat-completion response shape
-    const text = data?.choices?.[0]?.message?.content ?? '';
-    const usage = data?.usage ?? null;
+    const text = (response as any)?.choices?.[0]?.message?.content ?? '';
+    const usage = (response as any)?.usage ?? null;
 
     return NextResponse.json({ message: text, usage });
   } catch (err: any) {
     console.error('AI Agent error:', err);
     return NextResponse.json(
       { error: err.message || 'AI agent request failed' },
-      { status: 500 }
+      { status: err?.statusCode || err?.status || 500 }
     );
   }
 }
