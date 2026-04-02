@@ -16,6 +16,9 @@ interface SubscriptionDetails {
   status: string;
   nextBillingDate: string;
   email: string;
+  orderId: string;
+  invoiceNumber: string;
+  subscriptionStartDate: string;
 }
 
 function PaymentSuccessContent() {
@@ -79,6 +82,20 @@ function PaymentSuccessContent() {
       if (data) {
         const nextDate = new Date();
         nextDate.setMonth(nextDate.getMonth() + 1);
+
+        const startDate = data.created_at
+          ? new Date(data.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+          : new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+        // Generate a human-readable order ID from stripe_subscription_id or stripe_customer_id
+        const rawId = data.stripe_subscription_id || data.stripe_customer_id || data.id || '';
+        const shortId = rawId.replace(/^(sub_|cus_|pi_)/, '').slice(-10).toUpperCase();
+        const orderId = shortId ? `CC-${shortId}` : `CC-${Date.now().toString(36).toUpperCase()}`;
+
+        // Invoice number: INV- + year + month + short id
+        const now = new Date();
+        const invoiceNumber = `INV-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}-${shortId || Date.now().toString(36).toUpperCase().slice(-6)}`;
+
         setSubscription({
           plan: 'CourtCraft Advocate — Full Access',
           amount: data.currency === 'GBP' ? '£35' : data.currency === 'USD' ? '$32' : data.currency === 'EUR' ? '€30' : data.currency === 'CAD' ? 'C$44' : data.currency === 'AUD' ? 'A$49' : 'NZ$54',
@@ -86,6 +103,9 @@ function PaymentSuccessContent() {
           status: data.status || 'active',
           nextBillingDate: nextDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
           email: user?.email || '',
+          orderId,
+          invoiceNumber,
+          subscriptionStartDate: startDate,
         });
 
         // Send payment confirmation email as client-side fallback ONLY ONCE per session
@@ -110,6 +130,8 @@ function PaymentSuccessContent() {
         }
       } else {
         // Fallback if subscription record not yet written by webhook
+        const now = new Date();
+        const fallbackShortId = Date.now().toString(36).toUpperCase().slice(-10);
         setSubscription({
           plan: 'CourtCraft Advocate — Full Access',
           amount: '£35',
@@ -117,6 +139,9 @@ function PaymentSuccessContent() {
           status: 'active',
           nextBillingDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
           email: user?.email || '',
+          orderId: `CC-${fallbackShortId}`,
+          invoiceNumber: `INV-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}-${fallbackShortId.slice(-6)}`,
+          subscriptionStartDate: now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
         });
       }
     } catch (err) {
@@ -240,12 +265,24 @@ function PaymentSuccessContent() {
             ) : subscription ? (
               <div className="space-y-3">
                 <div className="flex items-center justify-between py-2 border-b border-white border-opacity-5">
+                  <span className="text-xs text-white text-opacity-50">Order ID</span>
+                  <span className="text-xs text-gold-400 font-700 font-mono tracking-wide">{subscription.orderId}</span>
+                </div>
+                <div className="flex items-center justify-between py-2 border-b border-white border-opacity-5">
+                  <span className="text-xs text-white text-opacity-50">Invoice</span>
+                  <span className="text-xs text-white font-600 font-mono">{subscription.invoiceNumber}</span>
+                </div>
+                <div className="flex items-center justify-between py-2 border-b border-white border-opacity-5">
                   <span className="text-xs text-white text-opacity-50">Plan</span>
                   <span className="text-xs text-white font-600">{subscription.plan}</span>
                 </div>
                 <div className="flex items-center justify-between py-2 border-b border-white border-opacity-5">
-                  <span className="text-xs text-white text-opacity-50">Amount Charged</span>
+                  <span className="text-xs text-white text-opacity-50">Amount Paid</span>
                   <span className="text-xs text-green-400 font-700">{subscription.amount} / month</span>
+                </div>
+                <div className="flex items-center justify-between py-2 border-b border-white border-opacity-5">
+                  <span className="text-xs text-white text-opacity-50">Subscription Start</span>
+                  <span className="text-xs text-white font-600">{subscription.subscriptionStartDate}</span>
                 </div>
                 <div className="flex items-center justify-between py-2 border-b border-white border-opacity-5">
                   <span className="text-xs text-white text-opacity-50">Status</span>
