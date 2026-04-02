@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { completion } from '@rocketnew/llm-sdk';
 import Stripe from 'stripe';
 
 export const dynamic = 'force-dynamic';
@@ -55,14 +54,30 @@ async function checkAnthropic(): Promise<ServiceHealthResult> {
     if (!apiKey) {
       return { service: 'anthropic', status: 'down', latencyMs: 0, error: 'ANTHROPIC_API_KEY is not configured', checkedAt: new Date().toISOString() };
     }
-    const response = await completion({
-      model: 'claude-haiku-4-5-20251001',
-      messages: [{ role: 'user', content: 'ping' }],
-      stream: false,
-      api_key: apiKey,
-      max_tokens: 10,
+
+    // Use direct fetch to Anthropic API to validate the actual key
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 10,
+        messages: [{ role: 'user', content: 'ping' }],
+      }),
     });
+
     const latencyMs = Date.now() - start;
+
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      const errorMsg = body?.error?.message || `HTTP ${res.status}`;
+      return { service: 'anthropic', status: 'down', latencyMs, statusCode: res.status, error: errorMsg, checkedAt: new Date().toISOString() };
+    }
+
     return {
       service: 'anthropic',
       status: latencyMs > 5000 ? 'degraded' : 'healthy',
@@ -72,8 +87,7 @@ async function checkAnthropic(): Promise<ServiceHealthResult> {
     };
   } catch (err: any) {
     const latencyMs = Date.now() - start;
-    const statusCode = err?.statusCode || err?.status;
-    return { service: 'anthropic', status: 'down', latencyMs, statusCode, error: err.message, checkedAt: new Date().toISOString() };
+    return { service: 'anthropic', status: 'down', latencyMs, error: err.message, checkedAt: new Date().toISOString() };
   }
 }
 

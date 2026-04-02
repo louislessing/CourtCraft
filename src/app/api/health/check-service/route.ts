@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { completion } from '@rocketnew/llm-sdk';
 import Stripe from 'stripe';
 
 export const dynamic = 'force-dynamic';
@@ -47,15 +46,30 @@ export async function GET(request: NextRequest) {
       if (!apiKey) {
         result = { status: 'down', latencyMs: Date.now() - start, error: 'ANTHROPIC_API_KEY is not configured' };
       } else {
-        await completion({
-          model: 'claude-haiku-4-5-20251001',
-          messages: [{ role: 'user', content: 'ping' }],
-          stream: false,
-          api_key: apiKey,
-          max_tokens: 10,
+        // Use direct fetch to Anthropic API to validate the actual key
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': apiKey,
+            'anthropic-version': '2023-06-01',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'claude-haiku-4-5-20251001',
+            max_tokens: 10,
+            messages: [{ role: 'user', content: 'ping' }],
+          }),
         });
+
         const latencyMs = Date.now() - start;
-        result = { status: latencyMs > 5000 ? 'degraded' : 'healthy', latencyMs, statusCode: 200 };
+
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          const errorMsg = body?.error?.message || `HTTP ${res.status}`;
+          result = { status: 'down', latencyMs, statusCode: res.status, error: errorMsg };
+        } else {
+          result = { status: latencyMs > 5000 ? 'degraded' : 'healthy', latencyMs, statusCode: 200 };
+        }
       }
     } else {
       const secretKey = process.env.STRIPE_SECRET_KEY;
