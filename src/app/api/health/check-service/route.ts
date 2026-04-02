@@ -3,6 +3,9 @@ import { createClient } from '@supabase/supabase-js';
 import Anthropic from '@anthropic-ai/sdk';
 import Stripe from 'stripe';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const ADMIN_SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || 'admin-session-courtcraft-2024';
 
 function isAdminAuthenticated(request: NextRequest): boolean {
@@ -40,9 +43,10 @@ export async function GET(request: NextRequest) {
         result = { status: latencyMs > 3000 ? 'degraded' : 'healthy', latencyMs, statusCode: 200 };
       }
     } else if (service === 'anthropic') {
-      const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+      const apiKey = process.env.ANTHROPIC_API_KEY;
+      const client = new Anthropic({ apiKey });
       const msg = await client.messages.create({
-        model: 'claude-sonnet-4-5-20250929',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 10,
         messages: [{ role: 'user', content: 'ping' }],
       });
@@ -50,7 +54,8 @@ export async function GET(request: NextRequest) {
       const ok = msg.stop_reason === 'end_turn' || msg.stop_reason === 'max_tokens';
       result = { status: ok ? (latencyMs > 5000 ? 'degraded' : 'healthy') : 'degraded', latencyMs, statusCode: 200 };
     } else {
-      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2025-01-27.acacia' });
+      const secretKey = process.env.STRIPE_SECRET_KEY;
+      const stripe = new Stripe(secretKey!, { apiVersion: '2025-01-27.acacia' });
       await stripe.balance.retrieve();
       const latencyMs = Date.now() - start;
       result = { status: latencyMs > 3000 ? 'degraded' : 'healthy', latencyMs, statusCode: 200 };
