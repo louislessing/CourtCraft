@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import Anthropic from '@anthropic-ai/sdk';
+import { completion } from '@rocketnew/llm-sdk';
 import Stripe from 'stripe';
 
 export const dynamic = 'force-dynamic';
@@ -44,21 +44,29 @@ export async function GET(request: NextRequest) {
       }
     } else if (service === 'anthropic') {
       const apiKey = process.env.ANTHROPIC_API_KEY;
-      const client = new Anthropic({ apiKey });
-      const msg = await client.messages.create({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 10,
-        messages: [{ role: 'user', content: 'ping' }],
-      });
-      const latencyMs = Date.now() - start;
-      const ok = msg.stop_reason === 'end_turn' || msg.stop_reason === 'max_tokens';
-      result = { status: ok ? (latencyMs > 5000 ? 'degraded' : 'healthy') : 'degraded', latencyMs, statusCode: 200 };
+      if (!apiKey) {
+        result = { status: 'down', latencyMs: Date.now() - start, error: 'ANTHROPIC_API_KEY is not configured' };
+      } else {
+        await completion({
+          model: 'claude-haiku-4-5-20251001',
+          messages: [{ role: 'user', content: 'ping' }],
+          stream: false,
+          api_key: apiKey,
+          max_tokens: 10,
+        });
+        const latencyMs = Date.now() - start;
+        result = { status: latencyMs > 5000 ? 'degraded' : 'healthy', latencyMs, statusCode: 200 };
+      }
     } else {
       const secretKey = process.env.STRIPE_SECRET_KEY;
-      const stripe = new Stripe(secretKey!, { apiVersion: '2025-01-27.acacia' });
-      await stripe.balance.retrieve();
-      const latencyMs = Date.now() - start;
-      result = { status: latencyMs > 3000 ? 'degraded' : 'healthy', latencyMs, statusCode: 200 };
+      if (!secretKey) {
+        result = { status: 'down', latencyMs: Date.now() - start, error: 'STRIPE_SECRET_KEY is not configured' };
+      } else {
+        const stripe = new Stripe(secretKey, { apiVersion: '2025-01-27.acacia' });
+        await stripe.balance.retrieve();
+        const latencyMs = Date.now() - start;
+        result = { status: latencyMs > 3000 ? 'degraded' : 'healthy', latencyMs, statusCode: 200 };
+      }
     }
   } catch (err: any) {
     const latencyMs = Date.now() - start;

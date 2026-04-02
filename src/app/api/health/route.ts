@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import Anthropic from '@anthropic-ai/sdk';
+import { completion } from '@rocketnew/llm-sdk';
 import Stripe from 'stripe';
 
 export const dynamic = 'force-dynamic';
@@ -52,18 +52,27 @@ async function checkAnthropic(): Promise<ServiceHealthResult> {
   const start = Date.now();
   try {
     const apiKey = process.env.ANTHROPIC_API_KEY;
-    const client = new Anthropic({ apiKey });
-    const msg = await client.messages.create({
+    if (!apiKey) {
+      return { service: 'anthropic', status: 'down', latencyMs: 0, error: 'ANTHROPIC_API_KEY is not configured', checkedAt: new Date().toISOString() };
+    }
+    const response = await completion({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 10,
       messages: [{ role: 'user', content: 'ping' }],
+      stream: false,
+      api_key: apiKey,
+      max_tokens: 10,
     });
     const latencyMs = Date.now() - start;
-    const ok = msg.stop_reason === 'end_turn' || msg.stop_reason === 'max_tokens';
-    return { service: 'anthropic', status: ok ? (latencyMs > 5000 ? 'degraded' : 'healthy') : 'degraded', latencyMs, statusCode: 200, checkedAt: new Date().toISOString() };
+    return {
+      service: 'anthropic',
+      status: latencyMs > 5000 ? 'degraded' : 'healthy',
+      latencyMs,
+      statusCode: 200,
+      checkedAt: new Date().toISOString(),
+    };
   } catch (err: any) {
     const latencyMs = Date.now() - start;
-    const statusCode = err?.status || err?.statusCode;
+    const statusCode = err?.statusCode || err?.status;
     return { service: 'anthropic', status: 'down', latencyMs, statusCode, error: err.message, checkedAt: new Date().toISOString() };
   }
 }
@@ -72,7 +81,10 @@ async function checkStripe(): Promise<ServiceHealthResult> {
   const start = Date.now();
   try {
     const secretKey = process.env.STRIPE_SECRET_KEY;
-    const stripe = new Stripe(secretKey!, { apiVersion: '2025-01-27.acacia' });
+    if (!secretKey) {
+      return { service: 'stripe', status: 'down', latencyMs: 0, error: 'STRIPE_SECRET_KEY is not configured', checkedAt: new Date().toISOString() };
+    }
+    const stripe = new Stripe(secretKey, { apiVersion: '2025-01-27.acacia' });
     await stripe.balance.retrieve();
     const latencyMs = Date.now() - start;
     return { service: 'stripe', status: latencyMs > 3000 ? 'degraded' : 'healthy', latencyMs, statusCode: 200, checkedAt: new Date().toISOString() };
