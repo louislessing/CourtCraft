@@ -22,6 +22,32 @@ const CURRENCY_AMOUNTS: Record<string, number> = {
   EUR: 30,
 };
 
+// ─── Helper: send email via Supabase send-email edge function ────────────────
+async function sendEmail(payload: Record<string, unknown>) {
+  try {
+    await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/send-email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+      },
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    console.error('sendEmail error:', err);
+  }
+}
+
+// ─── Helper: get user profile (email + full_name) ────────────────────────────
+async function getUserProfile(userId: string) {
+  const { data } = await supabase
+    .from('user_profiles')
+    .select('email, full_name')
+    .eq('id', userId)
+    .single();
+  return data;
+}
+
 // ─── Helper: upsert stripe_customers record ─────────────────────────────────
 async function syncStripeCustomer(customer: Stripe.Customer | Stripe.DeletedCustomer) {
   if (customer.deleted) {
@@ -104,7 +130,8 @@ export async function POST(req: NextRequest) {
 
   try {
     if (WEBHOOK_SECRET && signature) {
-      event = stripe.webhooks.constructEvent(body, signature, WEBHOOK_SECRET);
+      // Use constructEventAsync — required for Next.js App Router (async runtime)
+      event = await stripe.webhooks.constructEventAsync(body, signature, WEBHOOK_SECRET);
     } else {
       console.warn('STRIPE_WEBHOOK_SECRET not set — accepting unsigned events (dev only)');
       event = JSON.parse(body) as Stripe.Event;
@@ -155,7 +182,6 @@ export async function POST(req: NextRequest) {
             stripe_charge_id: pi.latest_charge as string,
             currency,
             amount,
-            plan: 'monthly',
             trial_end: null,
             current_period_start: new Date().toISOString(),
             current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -168,6 +194,18 @@ export async function POST(req: NextRequest) {
             .from('user_profiles')
             .update({ stripe_customer_id: pi.customer as string })
             .eq('id', userId);
+        }
+
+        // Send payment confirmation email
+        const profilePi = await getUserProfile(userId);
+        if (profilePi?.email) {
+          await sendEmail({
+            type: 'payment_confirmation',
+            to: profilePi.email,
+            fullName: profilePi.full_name || profilePi.email,
+            currency,
+            amount,
+          });
         }
         break;
       }
@@ -228,7 +266,6 @@ export async function POST(req: NextRequest) {
             payment_status: subStatus === 'trialing' ? 'pending' : 'succeeded',
             currency: sessionCurrency,
             amount: sessionAmount,
-            plan: 'monthly',
             current_period_start: periodStart,
             current_period_end: periodEnd,
             cancel_at_period_end: false,
@@ -248,6 +285,18 @@ export async function POST(req: NextRequest) {
             const stripeCustomer = await stripe.customers.retrieve(session.customer as string);
             await syncStripeCustomer(stripeCustomer);
           } catch (_) { /* non-critical */ }
+        }
+
+        // Send payment confirmation email
+        const profileCheckout = await getUserProfile(userId);
+        if (profileCheckout?.email) {
+          await sendEmail({
+            type: 'payment_confirmation',
+            to: profileCheckout.email,
+            fullName: profileCheckout.full_name || profileCheckout.email,
+            currency: sessionCurrency,
+            amount: sessionAmount,
+          });
         }
         break;
       }
@@ -286,6 +335,26 @@ export async function POST(req: NextRequest) {
             await recordPayment(pi, sub.user_id);
           } catch (_) { /* non-critical */ }
         }
+
+        // Send invoice confirmation email for renewal billing cycles
+        if (invoice.billing_reason === 'subscription_cycle' || invoice.billing_reason === 'subscription_update') {
+          const profileInv = await getUserProfile(sub.user_id);
+          if (profileInv?.email) {
+            const invCurrency = (invoice.currency || 'gbp').toUpperCase();
+            const invAmount = CURRENCY_AMOUNTS[invCurrency] ?? (invoice.amount_paid ? invoice.amount_paid / 100 : 35);
+            const pStart = new Date(stripeSub.current_period_start * 1000).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+            const pEnd = new Date(stripeSub.current_period_end * 1000).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+            await sendEmail({
+              type: 'invoice_confirmation',
+              to: profileInv.email,
+              fullName: profileInv.full_name || profileInv.email,
+              currency: invCurrency,
+              amount: invAmount,
+              periodStart: pStart,
+              periodEnd: pEnd,
+            });
+          }
+        }
         break;
       }
 
@@ -314,6 +383,19 @@ export async function POST(req: NextRequest) {
             await recordPayment(pi, subRecord.user_id);
           } catch (_) { /* non-critical */ }
         }
+
+        // Send payment failed email
+        if (subRecord?.user_id) {
+          const profileFailed = await getUserProfile(subRecord.user_id);
+          if (profileFailed?.email) {
+            await sendEmail({
+              type: 'payment_failed',
+              to: profileFailed.email,
+              fullName: profileFailed.full_name || profileFailed.email,
+              failureReason: invoice.last_finalization_error?.message || 'Your subscription payment was declined',
+            });
+          }
+        }
         break;
       }
 
@@ -339,6 +421,20 @@ export async function POST(req: NextRequest) {
             updated_at: new Date().toISOString(),
           })
           .eq('user_id', userId);
+
+        // Send subscription status update email
+        const profileSubUpdated = await getUserProfile(userId);
+        if (profileSubUpdated?.email) {
+          const pEnd = new Date(stripeSub.current_period_end * 1000).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+          await sendEmail({
+            type: 'subscription_updated',
+            to: profileSubUpdated.email,
+            fullName: profileSubUpdated.full_name || profileSubUpdated.email,
+            newStatus: status,
+            cancelAtPeriodEnd: stripeSub.cancel_at_period_end,
+            periodEnd: pEnd,
+          });
+        }
         break;
       }
 
@@ -355,6 +451,16 @@ export async function POST(req: NextRequest) {
             updated_at: new Date().toISOString(),
           })
           .eq('user_id', userId);
+
+        // Send subscription cancelled email
+        const profileCanceled = await getUserProfile(userId);
+        if (profileCanceled?.email) {
+          await sendEmail({
+            type: 'subscription_canceled',
+            to: profileCanceled.email,
+            fullName: profileCanceled.full_name || profileCanceled.email,
+          });
+        }
         break;
       }
 

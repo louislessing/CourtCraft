@@ -227,21 +227,21 @@ export default function CourtFilingTrackerPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0f1e] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-[#c9a84c] border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-gold-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0f1e] text-white flex">
-      <Toaster position="top-right" toastOptions={{ style: { background: '#1a2035', color: '#fff', border: '1px solid #2a3050' } }} />
+    <div className="min-h-screen bg-white text-gray-900 flex">
+      <Toaster position="top-right" toastOptions={{ style: { background: '#ffffff', color: '#111827', border: '1px solid #e5e7eb' } }} />
 
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#0d1526] border-r border-[#1e2d4a] flex flex-col transform transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
-        <div className="p-5 border-b border-[#1e2d4a] flex items-center justify-between">
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 flex flex-col transform transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
+        <div className="p-5 border-b border-gray-200 flex items-center justify-between">
           <AppLogo className="h-8" />
-          <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-slate-400 hover:text-white">
+          <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-gray-400 hover:text-gray-700">
             <Icon name="XMarkIcon" size={20} />
           </button>
         </div>
@@ -252,8 +252,7 @@ export default function CourtFilingTrackerPage() {
               href={link.href}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 link.active
-                  ? 'bg-[#c9a84c]/10 text-[#c9a84c] border border-[#c9a84c]/20'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  ? 'bg-gold-500/10 text-gold-600 border border-gold-500/20' :'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
               }`}
             >
               <Icon name={link.icon} size={18} />
@@ -264,30 +263,30 @@ export default function CourtFilingTrackerPage() {
       </aside>
 
       {/* Overlay */}
-      {sidebarOpen && <div className="fixed inset-0 z-40 bg-black/50 lg:hidden" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && <div className="fixed inset-0 z-40 bg-black/30 lg:hidden" onClick={() => setSidebarOpen(false)} />}
 
       {/* Main */}
       <div className="flex-1 lg:ml-64 flex flex-col min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 z-30 bg-[#0d1526]/95 backdrop-blur border-b border-[#1e2d4a] px-4 lg:px-6 py-3 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-white border-b border-gray-200 px-4 lg:px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-slate-400 hover:text-white">
+            <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-gray-400 hover:text-gray-700">
               <Icon name="Bars3Icon" size={22} />
             </button>
             <div>
-              <h1 className="text-lg font-semibold text-white flex items-center gap-2">
-                <Icon name="ClipboardDocumentListIcon" size={20} className="text-[#c9a84c]" />
+              <h1 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                <Icon name="ClipboardDocumentListIcon" size={20} className="text-gold-500" />
                 Court Filing Tracker
               </h1>
-              <p className="text-xs text-slate-500 hidden sm:block">Track all court submissions, reference numbers, and responses</p>
+              <p className="text-xs text-gray-500 hidden sm:block">Track all court submissions, reference numbers, and responses</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <BackButton className="text-white/60 hover:text-[#c9a84c]" label="Back" />
+            <BackButton className="text-gray-500 hover:text-gold-500" label="Back" />
             <NotificationBell />
             <button
               onClick={openAdd}
-              className="flex items-center gap-2 px-4 py-2 bg-[#c9a84c] hover:bg-[#b8963e] text-[#0a0f1e] text-sm font-semibold rounded-lg transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-gold-500 hover:bg-gold-600 text-white text-sm font-semibold rounded-lg transition-colors"
             >
               <Icon name="PlusIcon" size={16} />
               <span className="hidden sm:inline">Add Filing</span>
@@ -304,7 +303,7 @@ export default function CourtFilingTrackerPage() {
               { label: 'Awaiting Hearing', value: stats.awaitingHearing, icon: 'CalendarDaysIcon', color: 'text-purple-400', bg: 'bg-purple-400/10' },
               { label: 'Resolved', value: stats.decided, icon: 'CheckBadgeIcon', color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
             ].map(stat => (
-              <div key={stat.label} className="bg-[#0d1526] border border-[#1e2d4a] rounded-xl p-4 flex items-center gap-4">
+              <div key={stat.label} className="bg-white border border-gray-200 rounded-xl p-4 flex items-center gap-4">
                 <div className={`w-10 h-10 rounded-lg ${stat.bg} flex items-center justify-center flex-shrink-0`}>
                   <Icon name={stat.icon} size={20} className={stat.color} />
                 </div>
@@ -317,22 +316,22 @@ export default function CourtFilingTrackerPage() {
           </div>
 
           {/* Filters & Search */}
-          <div className="bg-[#0d1526] border border-[#1e2d4a] rounded-xl p-4 flex flex-col sm:flex-row gap-3">
+          <div className="bg-white border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
-              <Icon name="MagnifyingGlassIcon" size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <Icon name="MagnifyingGlassIcon" size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search by title, reference, case number, court..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#c9a84c]/50"
+                className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gold-500/50"
               />
             </div>
             <div className="flex gap-2 flex-wrap">
               <select
                 value={filterStatus}
                 onChange={e => setFilterStatus(e.target.value)}
-                className="px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white focus:outline-none focus:border-[#c9a84c]/50"
+                className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-gold-500/50"
               >
                 <option value="all">All Statuses</option>
                 {Object.entries(RESPONSE_STATUS_CONFIG).map(([k, v]) => (
@@ -346,7 +345,7 @@ export default function CourtFilingTrackerPage() {
                   setSortField(f as typeof sortField);
                   setSortDir(d as typeof sortDir);
                 }}
-                className="px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white focus:outline-none focus:border-[#c9a84c]/50"
+                className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-gold-500/50"
               >
                 <option value="submission_date-desc">Submitted (Newest)</option>
                 <option value="submission_date-asc">Submitted (Oldest)</option>
@@ -385,9 +384,9 @@ export default function CourtFilingTrackerPage() {
               <div className="w-8 h-8 border-2 border-[#c9a84c] border-t-transparent rounded-full animate-spin" />
             </div>
           ) : filteredFilings.length === 0 ? (
-            <div className="bg-[#0d1526] border border-[#1e2d4a] rounded-xl p-12 text-center">
-              <div className="w-16 h-16 bg-[#c9a84c]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Icon name="ClipboardDocumentListIcon" size={32} className="text-[#c9a84c]" />
+            <div className="bg-white border border-gray-200 rounded-xl p-12 text-center">
+              <div className="w-16 h-16 bg-gold-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Icon name="ClipboardDocumentListIcon" size={32} className="text-gold-500" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">
                 {searchQuery || filterStatus !== 'all' ? 'No filings match your filters' : 'No court filings yet'}
@@ -415,7 +414,7 @@ export default function CourtFilingTrackerPage() {
                   : null;
 
                 return (
-                  <div key={filing.id} className="bg-[#0d1526] border border-[#1e2d4a] rounded-xl p-5 hover:border-[#2a3a5a] transition-colors">
+                  <div key={filing.id} className="bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-300 transition-colors">
                     <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                       {/* Left */}
                       <div className="flex-1 min-w-0">
@@ -514,10 +513,10 @@ export default function CourtFilingTrackerPage() {
 
       {/* Add/Edit Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="bg-[#0d1526] border border-[#1e2d4a] rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-[#0d1526] border-b border-[#1e2d4a] px-6 py-4 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div className="bg-white border border-gray-200 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-900">
                 {editingFiling ? 'Edit Court Filing' : 'Add Court Filing'}
               </h2>
               <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-white">
@@ -537,7 +536,7 @@ export default function CourtFilingTrackerPage() {
                       value={formData.document_title}
                       onChange={e => setFormData(p => ({ ...p, document_title: e.target.value }))}
                       placeholder="e.g. C100 Application for Child Arrangements Order"
-                      className="w-full px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#c9a84c]/50"
+                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gold-500/50"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
@@ -546,7 +545,7 @@ export default function CourtFilingTrackerPage() {
                       <select
                         value={formData.document_type}
                         onChange={e => setFormData(p => ({ ...p, document_type: e.target.value }))}
-                        className="w-full px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white focus:outline-none focus:border-[#c9a84c]/50"
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-gold-500/50"
                       >
                         {DOCUMENT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
                       </select>
@@ -558,7 +557,7 @@ export default function CourtFilingTrackerPage() {
                         value={formData.filed_by}
                         onChange={e => setFormData(p => ({ ...p, filed_by: e.target.value }))}
                         placeholder="Applicant / Respondent / Solicitor"
-                        className="w-full px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#c9a84c]/50"
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gold-500/50"
                       />
                     </div>
                   </div>
@@ -576,7 +575,7 @@ export default function CourtFilingTrackerPage() {
                       value={formData.court_name}
                       onChange={e => setFormData(p => ({ ...p, court_name: e.target.value }))}
                       placeholder="e.g. Central Family Court"
-                      className="w-full px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#c9a84c]/50"
+                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gold-500/50"
                     />
                   </div>
                   <div>
@@ -586,7 +585,7 @@ export default function CourtFilingTrackerPage() {
                       value={formData.court_reference_number}
                       onChange={e => setFormData(p => ({ ...p, court_reference_number: e.target.value }))}
                       placeholder="e.g. ZC21F00123"
-                      className="w-full px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#c9a84c]/50 font-mono"
+                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gold-500/50 font-mono"
                     />
                   </div>
                   <div>
@@ -596,7 +595,7 @@ export default function CourtFilingTrackerPage() {
                       value={formData.case_number}
                       onChange={e => setFormData(p => ({ ...p, case_number: e.target.value }))}
                       placeholder="e.g. BS21P00456"
-                      className="w-full px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#c9a84c]/50 font-mono"
+                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gold-500/50 font-mono"
                     />
                   </div>
                   <div>
@@ -605,7 +604,7 @@ export default function CourtFilingTrackerPage() {
                       type="date"
                       value={formData.submission_date}
                       onChange={e => setFormData(p => ({ ...p, submission_date: e.target.value }))}
-                      className="w-full px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white focus:outline-none focus:border-[#c9a84c]/50"
+                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-gold-500/50"
                     />
                   </div>
                 </div>
@@ -620,7 +619,7 @@ export default function CourtFilingTrackerPage() {
                     type="date"
                     value={formData.hearing_date}
                     onChange={e => setFormData(p => ({ ...p, hearing_date: e.target.value }))}
-                    className="w-full px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white focus:outline-none focus:border-[#c9a84c]/50"
+                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-gold-500/50"
                   />
                 </div>
               </div>
@@ -635,7 +634,7 @@ export default function CourtFilingTrackerPage() {
                       <select
                         value={formData.response_status}
                         onChange={e => setFormData(p => ({ ...p, response_status: e.target.value as CourtFiling['response_status'] }))}
-                        className="w-full px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white focus:outline-none focus:border-[#c9a84c]/50"
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-gold-500/50"
                       >
                         {Object.entries(RESPONSE_STATUS_CONFIG).map(([k, v]) => (
                           <option key={k} value={k}>{v.label}</option>
@@ -648,7 +647,7 @@ export default function CourtFilingTrackerPage() {
                         type="date"
                         value={formData.response_date}
                         onChange={e => setFormData(p => ({ ...p, response_date: e.target.value }))}
-                        className="w-full px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white focus:outline-none focus:border-[#c9a84c]/50"
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-gold-500/50"
                       />
                     </div>
                   </div>
@@ -659,7 +658,7 @@ export default function CourtFilingTrackerPage() {
                       onChange={e => setFormData(p => ({ ...p, response_notes: e.target.value }))}
                       rows={3}
                       placeholder="Any notes about the court's response or decision..."
-                      className="w-full px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#c9a84c]/50 resize-none"
+                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gold-500/50 resize-none"
                     />
                   </div>
                 </div>
@@ -673,12 +672,12 @@ export default function CourtFilingTrackerPage() {
                   onChange={e => setFormData(p => ({ ...p, notes: e.target.value }))}
                   rows={2}
                   placeholder="Any additional notes about this filing..."
-                  className="w-full px-3 py-2 bg-[#0a0f1e] border border-[#1e2d4a] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#c9a84c]/50 resize-none"
+                  className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gold-500/50 resize-none"
                 />
               </div>
             </div>
 
-            <div className="sticky bottom-0 bg-[#0d1526] border-t border-[#1e2d4a] px-6 py-4 flex gap-3 justify-end">
+            <div className="sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4 flex gap-3 justify-end">
               <button
                 onClick={() => setShowAddModal(false)}
                 className="px-4 py-2 text-sm text-slate-400 hover:text-white border border-[#1e2d4a] hover:border-slate-500 rounded-lg transition-colors"

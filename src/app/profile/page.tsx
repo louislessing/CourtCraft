@@ -267,15 +267,15 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-white flex">
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 glass-dark border-r border-white border-opacity-10 flex flex-col transition-transform duration-300 ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0 lg:static lg:flex`}
       >
-        <div className="p-6 border-b border-white border-opacity-10">
+        <div className="p-6 border-b border-gray-200">
           <Link href="/homepage" className="flex items-center gap-3">
             <AppLogo size={32} iconName="ScaleIcon" className="text-gold-500" />
             <div className="flex flex-col">
-              <span className="font-display font-900 text-base tracking-tight text-white leading-none">
+              <span className="font-display font-900 text-base tracking-tight text-gray-900 leading-none">
                 Court<span className="text-gold-500">Craft</span>
               </span>
               <span className="label-tag text-gold-500 opacity-70 leading-none" style={{ fontSize: '8px' }}>
@@ -292,7 +292,7 @@ export default function ProfilePage() {
               href={link.href}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                 link.active
-                  ? 'bg-gold-500 bg-opacity-15 border border-gold-500 border-opacity-30 text-gold-400' :'text-white text-opacity-60 hover:text-white hover:bg-white hover:bg-opacity-5'
+                  ? 'bg-gold-500 bg-opacity-15 border border-gold-500 border-opacity-30 text-gold-600' :'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
               }`}
             >
               <Icon name={link.icon} size={18} />
@@ -301,10 +301,10 @@ export default function ProfilePage() {
           ))}
         </nav>
 
-        <div className="p-4 border-t border-white border-opacity-10">
+        <div className="p-4 border-t border-gray-200">
           <button
             onClick={signOut}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-white text-opacity-50 hover:text-red-400 hover:bg-white hover:bg-opacity-5 transition-all duration-200"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 hover:text-red-500 hover:bg-red-50 transition-all duration-200"
           >
             <Icon name="ArrowRightOnRectangleIcon" size={18} />
             <span className="font-display font-700 text-xs tracking-wide uppercase">Sign Out</span>
@@ -313,27 +313,27 @@ export default function ProfilePage() {
       </aside>
 
       {sidebarOpen && (
-        <div className="fixed inset-0 z-30 bg-black bg-opacity-50 lg:hidden" onClick={() => setSidebarOpen(false)} />
+        <div className="fixed inset-0 z-30 bg-black bg-opacity-30 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Bar */}
-        <header className="sticky top-0 z-20 glass-navy border-b border-white border-opacity-10 px-6 py-4 flex items-center justify-between">
+        <header className="sticky top-0 z-20 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
-              className="lg:hidden w-9 h-9 rounded-xl bg-navy-700 border border-navy-600 flex items-center justify-center text-white"
+              className="lg:hidden w-9 h-9 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-600"
               onClick={() => setSidebarOpen(true)}
             >
               <Icon name="Bars3Icon" size={18} />
             </button>
             <div>
-              <h1 className="font-display font-800 text-lg text-white leading-none">My Profile</h1>
-              <p className="text-white text-opacity-40 text-xs mt-0.5">Manage your account and preferences</p>
+              <h1 className="font-display font-800 text-lg text-gray-900 leading-none">My Profile</h1>
+              <p className="text-gray-400 text-xs mt-0.5">Manage your account and preferences</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <BackButton className="text-white/60 hover:text-gold-400" label="Back" />
+            <BackButton className="text-gray-500 hover:text-gold-500" label="Back" />
             <NotificationBell />
             <div className="w-9 h-9 rounded-xl bg-gold-500 bg-opacity-20 border border-gold-500 border-opacity-60 flex items-center justify-center">
               <span className="font-display font-800 text-xs text-gold-600">{getInitials()}</span>
@@ -361,10 +361,10 @@ export default function ProfilePage() {
               <span className="font-display font-900 text-2xl text-gold-600">{getInitials()}</span>
             </div>
             <div className="flex-1 min-w-0">
-              <h2 className="font-display font-800 text-xl text-white truncate">
+              <h2 className="font-display font-800 text-xl text-gray-900 truncate">
                 {accountForm.fullName || 'Your Name'}
               </h2>
-              <p className="text-white text-opacity-50 text-sm mt-0.5 truncate">{accountForm.email}</p>
+              <p className="text-gray-500 text-sm mt-0.5 truncate">{accountForm.email}</p>
               <div className="flex items-center gap-2 mt-2">
                 {profile?.email_verified ? (
                   <span className="flex items-center gap-1 text-xs text-green-400 bg-green-500 bg-opacity-10 border border-green-500 border-opacity-30 px-2 py-0.5 rounded-full">
@@ -377,7 +377,7 @@ export default function ProfilePage() {
                     Unverified
                   </span>
                 )}
-                <span className="text-xs text-white text-opacity-30">
+                <span className="text-xs text-gray-400">
                   Member since {user?.created_at ? formatDate(user.created_at) : 'N/A'}
                 </span>
               </div>
@@ -392,7 +392,7 @@ export default function ProfilePage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl border font-display font-700 text-xs tracking-wide uppercase whitespace-nowrap transition-all duration-200 ${
                   activeTab === tab.id
-                    ? 'bg-gold-500 bg-opacity-15 border-gold-500 border-opacity-40 text-gold-400' :'bg-navy-800 border-navy-600 text-white text-opacity-50 hover:text-white hover:border-navy-500'
+                    ? 'bg-gold-500 bg-opacity-15 border-gold-500 border-opacity-40 text-gold-600' :'bg-white border-gray-200 text-gray-500 hover:text-gray-900 hover:border-gray-300'
                 }`}
               >
                 <Icon name={tab.icon} size={15} />
@@ -409,27 +409,27 @@ export default function ProfilePage() {
                   <Icon name="UserCircleIcon" size={20} className="text-gold-400" />
                 </div>
                 <div>
-                  <h2 className="font-display font-800 text-base text-white">Account Details</h2>
-                  <p className="text-white text-opacity-40 text-xs">Update your personal information</p>
+                  <h2 className="font-display font-800 text-base text-gray-900">Account Details</h2>
+                  <p className="text-gray-400 text-xs">Update your personal information</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block font-display font-700 text-xs text-white text-opacity-60 uppercase tracking-widest mb-2">
+                  <label className="block font-display font-700 text-xs text-gray-500 uppercase tracking-widest mb-2">
                     Full Name
                   </label>
                   <input
                     type="text"
                     value={accountForm.fullName}
                     onChange={(e) => setAccountForm({ ...accountForm, fullName: e.target.value })}
-                    className="w-full bg-navy-900 border border-navy-600 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500 transition-colors"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-gold-500 transition-colors"
                     placeholder="Your full name"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-display font-700 text-xs text-white text-opacity-60 uppercase tracking-widest mb-2">
+                  <label className="block font-display font-700 text-xs text-gray-500 uppercase tracking-widest mb-2">
                     Email Address
                   </label>
                   <div className="relative">
@@ -437,7 +437,7 @@ export default function ProfilePage() {
                       type="email"
                       value={accountForm.email}
                       disabled
-                      className="w-full bg-navy-900 border border-navy-600 rounded-xl px-4 py-3 text-white text-opacity-40 text-sm cursor-not-allowed pr-10"
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-400 text-sm cursor-not-allowed pr-10"
                     />
                     <div className="absolute right-3 top-1/2 -translate-y-1/2">
                       {profile?.email_verified ? (
@@ -447,30 +447,30 @@ export default function ProfilePage() {
                       )}
                     </div>
                   </div>
-                  <p className="text-white text-opacity-30 text-xs mt-1.5">Email is managed via authentication</p>
+                  <p className="text-gray-400 text-xs mt-1.5">Email is managed via authentication</p>
                 </div>
 
                 <div>
-                  <label className="block font-display font-700 text-xs text-white text-opacity-60 uppercase tracking-widest mb-2">
+                  <label className="block font-display font-700 text-xs text-gray-500 uppercase tracking-widest mb-2">
                     Phone Number
                   </label>
                   <input
                     type="tel"
                     value={accountForm.phone}
                     onChange={(e) => setAccountForm({ ...accountForm, phone: e.target.value })}
-                    className="w-full bg-navy-900 border border-navy-600 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500 transition-colors"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-gold-500 transition-colors"
                     placeholder="+44 7700 000000"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-display font-700 text-xs text-white text-opacity-60 uppercase tracking-widest mb-2">
+                  <label className="block font-display font-700 text-xs text-gray-500 uppercase tracking-widest mb-2">
                     Country
                   </label>
                   <select
                     value={accountForm.country}
                     onChange={(e) => setAccountForm({ ...accountForm, country: e.target.value })}
-                    className="w-full bg-navy-900 border border-navy-600 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500 transition-colors"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-gold-500 transition-colors"
                   >
                     <option value="GB">United Kingdom</option>
                     <option value="IE">Ireland</option>
@@ -512,34 +512,34 @@ export default function ProfilePage() {
                   <Icon name="LockClosedIcon" size={20} className="text-gold-400" />
                 </div>
                 <div>
-                  <h2 className="font-display font-800 text-base text-white">Change Password</h2>
-                  <p className="text-white text-opacity-40 text-xs">Keep your account secure with a strong password</p>
+                  <h2 className="font-display font-800 text-base text-gray-900">Change Password</h2>
+                  <p className="text-gray-400 text-xs">Keep your account secure with a strong password</p>
                 </div>
               </div>
 
               <div className="max-w-md space-y-6">
                 <div>
-                  <label className="block font-display font-700 text-xs text-white text-opacity-60 uppercase tracking-widest mb-2">
+                  <label className="block font-display font-700 text-xs text-gray-500 uppercase tracking-widest mb-2">
                     New Password
                   </label>
                   <input
                     type="password"
                     value={passwordForm.newPassword}
                     onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
-                    className="w-full bg-navy-900 border border-navy-600 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500 transition-colors"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-gold-500 transition-colors"
                     placeholder="Min. 8 characters"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-display font-700 text-xs text-white text-opacity-60 uppercase tracking-widest mb-2">
+                  <label className="block font-display font-700 text-xs text-gray-500 uppercase tracking-widest mb-2">
                     Confirm New Password
                   </label>
                   <input
                     type="password"
                     value={passwordForm.confirmPassword}
                     onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
-                    className="w-full bg-navy-900 border border-navy-600 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500 transition-colors"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-gold-500 transition-colors"
                     placeholder="Repeat new password"
                   />
                   {passwordForm.confirmPassword && passwordForm.newPassword !== passwordForm.confirmPassword && (
@@ -553,7 +553,7 @@ export default function ProfilePage() {
                 {/* Password strength */}
                 {passwordForm.newPassword && (
                   <div>
-                    <p className="font-display font-700 text-xs text-white text-opacity-60 uppercase tracking-widest mb-2">
+                    <p className="font-display font-700 text-xs text-gray-500 uppercase tracking-widest mb-2">
                       Password Strength
                     </p>
                     <div className="flex gap-1">
@@ -567,7 +567,7 @@ export default function ProfilePage() {
                         />
                       ))}
                     </div>
-                    <p className="text-white text-opacity-30 text-xs mt-1">
+                    <p className="text-gray-400 text-xs mt-1">
                       {passwordForm.newPassword.length < 8 ? 'Too short' :
                        passwordForm.newPassword.length < 12 ? 'Weak' :
                        passwordForm.newPassword.length < 16 ? 'Fair' :
@@ -607,8 +607,8 @@ export default function ProfilePage() {
                   <Icon name="BellIcon" size={20} className="text-gold-400" />
                 </div>
                 <div>
-                  <h2 className="font-display font-800 text-base text-white">Notification Preferences</h2>
-                  <p className="text-white text-opacity-40 text-xs">Control which alerts and emails you receive</p>
+                  <h2 className="font-display font-800 text-base text-gray-900">Notification Preferences</h2>
+                  <p className="text-gray-400 text-xs">Control which alerts and emails you receive</p>
                 </div>
               </div>
 
@@ -616,7 +616,7 @@ export default function ProfilePage() {
                 {notifToggles.map((toggle) => (
                   <div
                     key={toggle.key}
-                    className="flex items-center justify-between p-4 rounded-xl bg-navy-900 border border-navy-700 hover:border-navy-600 transition-colors"
+                    className="flex items-center justify-between p-4 rounded-xl bg-white border border-gray-200 hover:border-gray-300 transition-colors"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-lg bg-navy-800 border border-navy-600 flex items-center justify-center flex-shrink-0">
@@ -673,8 +673,8 @@ export default function ProfilePage() {
                   <Icon name="PuzzlePieceIcon" size={20} className="text-gold-400" />
                 </div>
                 <div>
-                  <h2 className="font-display font-800 text-base text-white">Connected Integrations</h2>
-                  <p className="text-white text-opacity-40 text-xs">Status of your connected services and subscriptions</p>
+                  <h2 className="font-display font-800 text-base text-gray-900">Connected Integrations</h2>
+                  <p className="text-gray-400 text-xs">Status of your connected services and subscriptions</p>
                 </div>
               </div>
 

@@ -15,7 +15,7 @@ serve(async (req) => {
   }
 
   try {
-    const { type, to, fullName, currency = "GBP", amount = 35, trialEndDate, nextCourtDate, verificationCode, documentTitle, documentType, totalDocuments, failureReason, caseTitle, caseNumber, generatedAt, sections } = await req.json();
+    const { type, to, fullName, currency = "GBP", amount = 35, trialEndDate, nextCourtDate, verificationCode, documentTitle, documentType, totalDocuments, failureReason, caseTitle, caseNumber, generatedAt, sections, invoiceNumber, periodStart, periodEnd, newStatus, cancelAtPeriodEnd } = await req.json();
 
     let subject = "";
     let html = "";
@@ -257,7 +257,7 @@ serve(async (req) => {
             Hi ${fullName}, your CourtCraft Advocate subscription is now active.
           </p>
           <div style="background: #1a2035; border: 1px solid #c9a84c33; border-radius: 12px; padding: 20px; margin: 20px 0;">
-            <p style="color: #c9a84c; margin: 0 0 8px;">Subscription Details</p>
+            <p style="color: #c9a84c; margin: 0 0 8px; font-weight: bold;">Subscription Details</p>
             <p style="color: #cccccc; margin: 4px 0;">Plan: Monthly Subscription</p>
             <p style="color: #cccccc; margin: 4px 0;">Amount: ${sym}${amount}/month</p>
             <p style="color: #cccccc; margin: 4px 0;">Status: <span style="color: #4ade80;">Active ✓</span></p>
@@ -267,6 +267,125 @@ serve(async (req) => {
           </a>
           <p style="color: #666; font-size: 12px; margin-top: 30px;">
             You can manage your subscription at any time from your dashboard settings.
+          </p>
+        </div>
+      `;
+    } else if (type === "invoice_confirmation") {
+      subject = "Invoice — CourtCraft Advocate Subscription Renewal";
+      html = `
+        <div style="${baseStyle}">
+          <h1 style="${goldStyle}">Subscription Renewed Successfully</h1>
+          <p style="color: #cccccc; line-height: 1.7;">
+            Hi ${fullName}, your CourtCraft Advocate subscription has been renewed and your payment was successful.
+          </p>
+          <div style="background: #1a2035; border: 1px solid #c9a84c33; border-radius: 12px; padding: 20px; margin: 20px 0;">
+            <p style="color: #c9a84c; margin: 0 0 12px; font-weight: bold;">📄 Invoice Details</p>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="color: #888; font-size: 13px; padding: 5px 0;">Description</td>
+                <td style="color: #ffffff; font-size: 13px; padding: 5px 0; text-align: right;">CourtCraft Advocate — Monthly Subscription</td>
+              </tr>
+              <tr>
+                <td style="color: #888; font-size: 13px; padding: 5px 0;">Amount</td>
+                <td style="color: #ffffff; font-size: 13px; padding: 5px 0; text-align: right; font-weight: bold;">${sym}${amount}</td>
+              </tr>
+              ${periodStart ? `<tr>
+                <td style="color: #888; font-size: 13px; padding: 5px 0;">Billing Period</td>
+                <td style="color: #cccccc; font-size: 13px; padding: 5px 0; text-align: right;">${periodStart}${periodEnd ? ` – ${periodEnd}` : ""}</td>
+              </tr>` : ""}
+              <tr>
+                <td style="color: #888; font-size: 13px; padding: 5px 0;">Status</td>
+                <td style="color: #4ade80; font-size: 13px; padding: 5px 0; text-align: right; font-weight: bold;">Paid ✓</td>
+              </tr>
+            </table>
+          </div>
+          <p style="color: #cccccc; line-height: 1.7;">
+            Your subscription is active and all tools remain fully accessible. Thank you for continuing with CourtCraft Advocate.
+          </p>
+          <a href="${siteUrl}/dashboard" style="${btnStyle}">
+            Go to Dashboard →
+          </a>
+          <p style="color: #666; font-size: 12px; margin-top: 30px;">
+            You can manage your subscription and view billing history from your dashboard settings. CourtCraft Advocate — McKenzie Friend lay support services. Not regulated legal advice.
+          </p>
+        </div>
+      `;
+    } else if (type === "subscription_updated") {
+      const statusLabel = cancelAtPeriodEnd
+        ? "Cancels at Period End"
+        : newStatus === "active" ? "Active" : newStatus === "past_due" ? "Past Due" : newStatus === "trialing" ? "Trial" : (newStatus || "Updated");
+      const statusColor = cancelAtPeriodEnd ? "#f97316" : newStatus === "active" ? "#4ade80" : newStatus === "past_due" ? "#ef4444" : "#c9a84c";
+      subject = `Subscription Updated — CourtCraft Advocate`;
+      html = `
+        <div style="${baseStyle}">
+          <h1 style="${goldStyle}">Your Subscription Has Been Updated</h1>
+          <p style="color: #cccccc; line-height: 1.7;">
+            Hi ${fullName}, your CourtCraft Advocate subscription status has changed.
+          </p>
+          <div style="background: #1a2035; border: 1px solid #c9a84c33; border-radius: 12px; padding: 20px; margin: 20px 0;">
+            <p style="color: #c9a84c; margin: 0 0 12px; font-weight: bold;">Subscription Status</p>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="color: #888; font-size: 13px; padding: 5px 0;">Plan</td>
+                <td style="color: #ffffff; font-size: 13px; padding: 5px 0; text-align: right;">CourtCraft Advocate — Monthly</td>
+              </tr>
+              <tr>
+                <td style="color: #888; font-size: 13px; padding: 5px 0;">New Status</td>
+                <td style="color: ${statusColor}; font-size: 13px; padding: 5px 0; text-align: right; font-weight: bold;">${statusLabel}</td>
+              </tr>
+              ${periodEnd ? `<tr>
+                <td style="color: #888; font-size: 13px; padding: 5px 0;">${cancelAtPeriodEnd ? "Access Until" : "Next Renewal"}</td>
+                <td style="color: #cccccc; font-size: 13px; padding: 5px 0; text-align: right;">${periodEnd}</td>
+              </tr>` : ""}
+            </table>
+          </div>
+          ${cancelAtPeriodEnd ? `
+          <div style="background: #2a1a0a; border: 1px solid #f9731633; border-radius: 12px; padding: 16px; margin: 20px 0;">
+            <p style="color: #f97316; margin: 0 0 8px; font-weight: bold;">⚠️ Cancellation Scheduled</p>
+            <p style="color: #cccccc; margin: 0; font-size: 13px; line-height: 1.7;">Your subscription will remain active until the end of the current billing period. After that, you will lose access to all tools and case data.</p>
+          </div>
+          <a href="${siteUrl}/subscription" style="${btnStyle}">
+            Reactivate Subscription →
+          </a>
+          ` : `
+          <a href="${siteUrl}/dashboard" style="${btnStyle}">
+            Go to Dashboard →
+          </a>
+          `}
+          <p style="color: #666; font-size: 12px; margin-top: 30px;">
+            If you did not make this change, please contact us immediately. CourtCraft Advocate — McKenzie Friend lay support services. Not regulated legal advice.
+          </p>
+        </div>
+      `;
+    } else if (type === "subscription_canceled") {
+      subject = "Subscription Cancelled — CourtCraft Advocate";
+      html = `
+        <div style="${baseStyle}">
+          <div style="background: #1a1a2e; border: 1px solid #c9a84c44; border-radius: 16px; padding: 20px; margin-bottom: 24px; text-align: center;">
+            <p style="color: #c9a84c; font-size: 16px; font-weight: bold; margin: 0;">Subscription Cancelled</p>
+            <p style="color: #888; font-size: 12px; margin: 8px 0 0;">Your CourtCraft Advocate subscription has ended</p>
+          </div>
+          <h1 style="${goldStyle}">We're Sorry to See You Go, ${fullName}</h1>
+          <p style="color: #cccccc; line-height: 1.7;">
+            Your CourtCraft Advocate subscription has been cancelled. Your account data will be retained for 30 days in case you decide to return.
+          </p>
+          <div style="background: #1a2035; border: 1px solid #c9a84c33; border-radius: 12px; padding: 20px; margin: 20px 0;">
+            <p style="color: #c9a84c; margin: 0 0 12px; font-weight: bold;">What Happens Next</p>
+            <ul style="color: #cccccc; line-height: 2; margin: 0; padding-left: 20px; font-size: 13px;">
+              <li>Your access to all tools has ended</li>
+              <li>Your case data is retained for 30 days</li>
+              <li>You can resubscribe at any time to regain full access</li>
+              <li>Contact us if you need a data export before deletion</li>
+            </ul>
+          </div>
+          <p style="color: #cccccc; line-height: 1.7;">
+            If you cancelled by mistake or would like to continue, you can resubscribe at any time.
+          </p>
+          <a href="${siteUrl}/subscription" style="${btnStyle}">
+            Resubscribe →
+          </a>
+          <p style="color: #666; font-size: 12px; margin-top: 30px;">
+            Thank you for using CourtCraft Advocate. We hope to support you again in the future. CourtCraft Advocate — McKenzie Friend lay support services. Not regulated legal advice.
           </p>
         </div>
       `;

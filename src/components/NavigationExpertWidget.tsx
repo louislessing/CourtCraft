@@ -155,7 +155,7 @@ const SUGGESTED_QUESTIONS = [
 
 // Default anchor: bottom-right corner (right: 16px, bottom: 16px)
 const DEFAULT_RIGHT = 16;
-const DEFAULT_BOTTOM = 16;
+const DEFAULT_BOTTOM = 180;
 
 const NavigationExpertWidget: React.FC = () => {
   const [open, setOpen] = useState(false);

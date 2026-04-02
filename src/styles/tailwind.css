@@ -124,17 +124,17 @@ body {
 
 /* ── GLASS EFFECTS ── */
 .glass-navy {
-  background: rgba(10, 22, 40, 0.92);
+  background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(26, 53, 96, 0.10);
 }
 
 .glass-dark {
-  background: rgba(6, 13, 26, 0.95);
+  background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(26, 53, 96, 0.10);
 }
 
 .glass-gold {
@@ -599,11 +599,11 @@ body {
 
 /* ── INPUT STYLES ── */
 .input-navy {
-  background: var(--navy-800);
-  border: 1px solid var(--navy-600);
+  background: #ffffff;
+  border: 1px solid rgba(26, 53, 96, 0.18);
   border-radius: 12px;
   padding: 14px 18px;
-  color: var(--white);
+  color: var(--navy-900);
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
   width: 100%;
@@ -612,7 +612,7 @@ body {
 }
 
 .input-navy::placeholder {
-  color: rgba(255,255,255,0.3);
+  color: rgba(26, 53, 96, 0.35);
 }
 
 .input-navy:focus {
@@ -777,18 +777,18 @@ body {
 
 /* Dark tab override */
 .dark-context .tab-btn {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(26, 53, 96, 0.55);
 }
 
 .dark-context .tab-btn.active {
   background: rgba(201, 168, 76, 0.15);
   border-color: rgba(201, 168, 76, 0.4);
-  color: var(--gold-400);
+  color: var(--gold-600, #a8832a);
 }
 
 .dark-context .tab-btn:hover:not(.active) {
-  color: rgba(255, 255, 255, 0.8);
-  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(26, 53, 96, 0.85);
+  border-color: rgba(26, 53, 96, 0.15);
 }
 
 /* ── SIDEBAR ── */
@@ -800,27 +800,27 @@ body {
   border-radius: 12px;
   font-size: 13px;
   font-weight: 600;
-  color: rgba(255,255,255,0.55);
+  color: rgba(26, 53, 96, 0.55);
   text-decoration: none;
   transition: all 0.2s ease;
   cursor: pointer;
 }
 
 .sidebar-link:hover {
-  background: rgba(255,255,255,0.05);
-  color: rgba(255,255,255,0.85);
+  background: rgba(26, 53, 96, 0.05);
+  color: rgba(26, 53, 96, 0.85);
 }
 
 .sidebar-link.active {
   background: rgba(201, 168, 76, 0.12);
-  color: var(--gold-400);
+  color: var(--gold-600, #a8832a);
   border: 1px solid rgba(201, 168, 76, 0.2);
 }
 
 /* ── DOCUMENT TEMPLATE CARD ── */
 .doc-template-card {
-  background: var(--navy-800);
-  border: 1px solid var(--navy-600);
+  background: #ffffff;
+  border: 1px solid rgba(26, 53, 96, 0.12);
   border-radius: 16px;
   padding: 24px;
   cursor: pointer;
@@ -831,12 +831,12 @@ body {
 .doc-template-card:hover {
   border-color: rgba(201, 168, 76, 0.4);
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
 }
 
 .doc-template-card.selected {
   border-color: var(--gold-500);
-  background: rgba(201, 168, 76, 0.06);
+  background: rgba(201, 168, 76, 0.04);
 }
 
 /* ── TIMELINE ── */
@@ -1184,20 +1184,20 @@ img, video, iframe {
   border-radius: 12px;
   font-size: 13px;
   font-weight: 600;
-  color: rgba(255,255,255,0.55);
+  color: rgba(26, 53, 96, 0.55);
   text-decoration: none;
   transition: all 0.15s ease;
   width: 100%;
 }
 
 .sidebar-link:hover {
-  background: rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.85);
+  background: rgba(26, 53, 96, 0.06);
+  color: rgba(26, 53, 96, 0.85);
 }
 
 .sidebar-link.active {
   background: rgba(201,168,76,0.12);
-  color: var(--gold-400);
+  color: var(--gold-600, #a8832a);
   border: 1px solid rgba(201,168,76,0.25);
 }
 
@@ -1210,7 +1210,7 @@ img, video, iframe {
   border-radius: 10px;
   font-size: 12px;
   font-weight: 600;
-  color: rgba(255,255,255,0.45);
+  color: rgba(26, 53, 96, 0.55);
   background: transparent;
   border: 1px solid transparent;
   cursor: pointer;
@@ -1219,12 +1219,12 @@ img, video, iframe {
 }
 
 .tab-btn:hover {
-  color: rgba(255,255,255,0.75);
-  background: rgba(255,255,255,0.05);
+  color: rgba(26, 53, 96, 0.85);
+  background: rgba(26, 53, 96, 0.05);
 }
 
 .tab-btn.active {
-  color: var(--gold-400);
+  color: var(--gold-600, #a8832a);
   background: rgba(201,168,76,0.10);
   border-color: rgba(201,168,76,0.25);
 }

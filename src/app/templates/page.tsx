@@ -175,7 +175,7 @@ export default function TemplatesPage() {
                   onClick={() => setSelectedCategory(cat)}
                   className={`flex-shrink-0 px-3 py-2 rounded-full text-xs font-700 transition-all whitespace-nowrap ${
                     selectedCategory === cat
-                      ? 'bg-navy-900 text-white' :'bg-gray-100 text-navy-600 hover:bg-gray-200'
+                      ? 'bg-gray-900 text-white' :'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
                   {cat}
@@ -197,8 +197,8 @@ export default function TemplatesPage() {
                 style={{ background: '#fafbfc', border: '1px solid rgba(26,53,96,0.12)', boxShadow: '0 2px 12px rgba(26,53,96,0.06)' }}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-navy-50 border border-navy-100 flex items-center justify-center flex-shrink-0">
-                    <Icon name={template.icon as any} size={18} className="text-navy-600" />
+                  <div className="w-10 h-10 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center flex-shrink-0">
+                    <Icon name={template.icon as any} size={18} className="text-gray-600" />
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {template.popular && (

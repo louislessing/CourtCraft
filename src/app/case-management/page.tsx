@@ -226,7 +226,7 @@ export default function CaseManagementPage() {
   const prevAiResponseRef = useRef('');
   const isAiCapturingRef = useRef(false);
 
-  const { response: aiResponse, isLoading: aiLoading, error: aiError, sendMessage: sendAiMessage } = useChat('ANTHROPIC', 'claude-sonnet-4-5-20250929', true);
+  const { response: aiResponse, isLoading: aiLoading, error: aiError, sendMessage: sendAiMessage } = useChat('ANTHROPIC', 'claude-haiku-4-5-20251001', true);
 
   useEffect(() => {
     if (aiError) toast.error(aiError.message, {
@@ -652,14 +652,14 @@ export default function CaseManagementPage() {
         autoCloseSecs={8}
       />
 
-      <aside className={`fixed lg:static inset-y-0 left-0 z-40 w-64 bg-navy-900 border-r border-navy-600 flex flex-col transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-        <div className="p-4 sm:p-5 border-b border-navy-600 flex items-center justify-between">
+      <aside className={`fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+        <div className="p-4 sm:p-5 border-b border-gray-200 flex items-center justify-between">
           <Link href="/homepage" className="flex items-center gap-3">
             <AppLogo size={32} iconName="ScaleIcon" />
-            <span className="font-display font-900 text-lg text-white tracking-tight">Court<span className="text-gold-500">Craft</span></span>
+            <span className="font-display font-900 text-lg text-gray-900 tracking-tight">Court<span className="text-gold-500">Craft</span></span>
           </Link>
-          <button className="lg:hidden p-2 rounded-lg hover:bg-navy-700 transition-colors" onClick={() => setSidebarOpen(false)}>
-            <Icon name="XMarkIcon" size={16} className="text-white/60" />
+          <button className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors" onClick={() => setSidebarOpen(false)}>
+            <Icon name="XMarkIcon" size={16} className="text-gray-500" />
           </button>
         </div>
         <nav className="flex-1 p-3 sm:p-4 space-y-1 overflow-y-auto">
@@ -672,30 +672,30 @@ export default function CaseManagementPage() {
         </nav>
       </aside>
 
-      {sidebarOpen && <div className="fixed inset-0 bg-black bg-opacity-60 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && <div className="fixed inset-0 bg-black bg-opacity-40 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />}
 
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <header className="bg-navy-900 border-b border-navy-600 px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center justify-between flex-shrink-0">
+        <header className="bg-white border-b border-gray-200 px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
             <button className="lg:hidden p-2 -ml-1 min-w-[36px] min-h-[36px] flex items-center justify-center" onClick={() => setSidebarOpen(true)}>
-              <Icon name="Bars3Icon" size={22} className="text-white opacity-60" />
+              <Icon name="Bars3Icon" size={22} className="text-gray-500" />
             </button>
             <div>
-              <h1 className="font-display font-800 text-white text-sm sm:text-base lg:text-lg">Case Management</h1>
-              <p className="text-xs text-white text-opacity-40 truncate max-w-[160px] sm:max-w-none">{activeCase?.title || 'Loading...'}</p>
+              <h1 className="font-display font-800 text-gray-900 text-sm sm:text-base lg:text-lg">Case Management</h1>
+              <p className="text-xs text-gray-500 truncate max-w-[160px] sm:max-w-none">{activeCase?.title || 'Loading...'}</p>
             </div>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-3">
-            <BackButton className="text-white/60 hover:text-gold-400 hidden sm:inline-flex" label="Back" />
+            <BackButton className="text-gray-500 hover:text-gold-500 hidden sm:inline-flex" label="Back" />
             <div className="hidden md:flex items-center gap-1">
               <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-              <span className="text-xs text-white text-opacity-40">Live Sync</span>
+              <span className="text-xs text-gray-400">Live Sync</span>
             </div>
             <NotificationBell />
           </div>
         </header>
 
-        <div className="bg-navy-900 border-b border-navy-600 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 overflow-x-auto scrollbar-hide">
+        <div className="bg-white border-b border-gray-200 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 overflow-x-auto scrollbar-hide">
           <div className="flex gap-1 sm:gap-1.5 lg:gap-2 min-w-max">
             {tabs.map((tab) => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`tab-btn flex items-center gap-1 sm:gap-1.5 lg:gap-2 py-2 px-2.5 sm:px-3 lg:px-4 text-xs ${activeTab === tab.id ? 'active' : ''}`}>
@@ -1135,16 +1135,16 @@ export default function CaseManagementPage() {
 
                   <div className="space-y-3">
                     {communications.length === 0 ? (
-                      <p className="text-white text-opacity-40 text-sm text-center py-8">No communications logged yet</p>
+                      <p className="text-gray-400 text-sm text-center py-8">No communications logged yet</p>
                     ) : communications.map((comm) => (
                       <div key={comm.id} className={`surface-card rounded-2xl p-5 ${comm.is_flagged ? 'border-red-400 border-opacity-30' : ''}`}>
                         <div className="flex items-center gap-4 mb-2">
-                          <div className={`flex-shrink-0 text-center min-w-[56px] p-3 rounded-xl ${comm.is_urgent ? 'bg-orange-400 bg-opacity-20' : 'bg-navy-700'}`}>
-                            <p className={`font-display font-900 text-lg ${comm.is_urgent ? 'text-orange-400' : 'text-gold-400'}`}>{new Date(comm.comm_date).getDate()}</p>
-                            <p className="label-tag text-white text-opacity-40" style={{ fontSize: '8px' }}>{new Date(comm.comm_date).toLocaleString('en-GB', { month: 'short' })}</p>
+                          <div className={`flex-shrink-0 text-center min-w-[56px] p-3 rounded-xl ${comm.is_urgent ? 'bg-orange-400 bg-opacity-20' : 'bg-gray-100'}`}>
+                            <p className={`font-display font-900 text-lg ${comm.is_urgent ? 'text-orange-400' : 'text-gold-500'}`}>{new Date(comm.comm_date).getDate()}</p>
+                            <p className="label-tag text-gray-400" style={{ fontSize: '8px' }}>{new Date(comm.comm_date).toLocaleString('en-GB', { month: 'short' })}</p>
                           </div>
                           <div className="flex-1">
-                            <p className="font-display font-700 text-white text-sm">{comm.message}</p>
+                            <p className="font-display font-700 text-gray-900 text-sm">{comm.message}</p>
                             <div className="flex items-center gap-2 mt-1">
                               <span className="badge badge-blue" style={{ fontSize: '8px' }}>{comm.channel}</span>
                               {comm.is_urgent && <span className="badge badge-red" style={{ fontSize: '8px' }}>Urgent</span>}
@@ -1228,7 +1228,7 @@ export default function CaseManagementPage() {
                         </div>
                         <div className="flex items-center gap-2">
                           <input type="checkbox" id="urgent" checked={newDate.is_urgent} onChange={(e) => changeDate('is_urgent', e.target.checked)} className="w-4 h-4" />
-                          <label htmlFor="urgent" className="text-xs text-white text-opacity-60">Mark as urgent</label>
+                          <label htmlFor="urgent" className="text-xs text-gray-600">Mark as urgent</label>
                         </div>
                       </div>
                       <div className="flex gap-2 sm:gap-3">
@@ -1240,16 +1240,16 @@ export default function CaseManagementPage() {
 
                   <div className="space-y-3 max-w-2xl">
                     {courtDates.length === 0 ? (
-                      <p className="text-white text-opacity-40 text-sm text-center py-8">No court dates added yet</p>
+                      <p className="text-gray-400 text-sm text-center py-8">No court dates added yet</p>
                     ) : courtDates.map((date) => (
                       <div key={date.id} className={`p-4 rounded-2xl ${date.is_urgent ? 'bg-orange-400 bg-opacity-10 border border-orange-400 border-opacity-20' : 'surface-card'}`}>
                         <div className="flex items-center gap-4 mb-3">
-                          <div className={`flex-shrink-0 text-center min-w-[56px] p-3 rounded-xl ${date.is_urgent ? 'bg-orange-400 bg-opacity-20' : 'bg-navy-700'}`}>
-                            <p className={`font-display font-900 text-lg ${date.is_urgent ? 'text-orange-400' : 'text-gold-400'}`}>{new Date(date.event_date).getDate()}</p>
-                            <p className="label-tag text-white text-opacity-40" style={{ fontSize: '8px' }}>{new Date(date.event_date).toLocaleString('en-GB', { month: 'short' })}</p>
+                          <div className={`flex-shrink-0 text-center min-w-[56px] p-3 rounded-xl ${date.is_urgent ? 'bg-orange-400 bg-opacity-20' : 'bg-gray-100'}`}>
+                            <p className={`font-display font-900 text-lg ${date.is_urgent ? 'text-orange-400' : 'text-gold-500'}`}>{new Date(date.event_date).getDate()}</p>
+                            <p className="label-tag text-gray-400" style={{ fontSize: '8px' }}>{new Date(date.event_date).toLocaleString('en-GB', { month: 'short' })}</p>
                           </div>
                           <div className="flex-1">
-                            <p className="font-display font-700 text-white text-sm">{date.event_title}</p>
+                            <p className="font-display font-700 text-gray-900 text-sm">{date.event_title}</p>
                             <div className="flex items-center gap-2 mt-1">
                               <span className="badge badge-blue" style={{ fontSize: '8px' }}>{date.event_type}</span>
                               {date.is_urgent && <span className="badge badge-red" style={{ fontSize: '8px' }}>Urgent</span>}
@@ -1276,7 +1276,7 @@ export default function CaseManagementPage() {
               {activeTab === 'documents' && (
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
-                    <h2 className="font-display font-800 text-white text-lg">Documents</h2>
+                    <h2 className="font-display font-800 text-gray-900 text-lg">Documents</h2>
                     <Link href="/document-builder" className="btn-gold text-xs py-2 px-4">
                       <Icon name="PlusIcon" size={14} className="text-navy-900" />
                       Create Document
@@ -1284,18 +1284,18 @@ export default function CaseManagementPage() {
                   </div>
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {documents.length === 0 ? (
-                      <p className="text-white text-opacity-40 text-sm col-span-3 text-center py-8">No documents yet. Create your first document.</p>
+                      <p className="text-gray-400 text-sm col-span-3 text-center py-8">No documents yet. Create your first document.</p>
                     ) : documents.map((doc) => (
                       <div key={doc.id} className="surface-card rounded-2xl p-5">
                         <div className="flex items-start justify-between mb-3">
-                          <div className="w-10 h-10 rounded-xl bg-navy-700 flex items-center justify-center text-gold-400">
+                          <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gold-500">
                             <Icon name="DocumentTextIcon" size={20} />
                           </div>
                           <span className={`badge ${doc.status === 'complete' ? 'badge-green' : doc.status === 'submitted' ? 'badge-gold' : 'badge-blue'}`} style={{ fontSize: '8px' }}>{doc.status}</span>
                         </div>
-                        <h3 className="font-display font-700 text-white text-sm mb-1">{doc.title}</h3>
-                        <p className="text-xs text-white text-opacity-40">{doc.template_name}</p>
-                        <p className="label-tag text-white text-opacity-30 mt-2" style={{ fontSize: '9px' }}>{new Date(doc.created_at).toLocaleDateString('en-GB')}</p>
+                        <h3 className="font-display font-700 text-gray-900 text-sm mb-1">{doc.title}</h3>
+                        <p className="text-xs text-gray-500">{doc.template_name}</p>
+                        <p className="label-tag text-gray-400 mt-2" style={{ fontSize: '9px' }}>{new Date(doc.created_at).toLocaleDateString('en-GB')}</p>
                       </div>
                     ))}
                   </div>
@@ -1307,8 +1307,8 @@ export default function CaseManagementPage() {
                 <div className="max-w-3xl mx-auto space-y-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h2 className="font-display font-800 text-white text-lg">AI Legal Assistant</h2>
-                      <p className="text-xs text-white text-opacity-40 mt-1">UK Family Law Trained • Claude 3.5 Sonnet • 24/7 Available</p>
+                      <h2 className="font-display font-800 text-gray-900 text-lg">AI Legal Assistant</h2>
+                      <p className="text-xs text-gray-500 mt-1">UK Family Law Trained • Claude 3.5 Sonnet • 24/7 Available</p>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
@@ -1329,9 +1329,9 @@ export default function CaseManagementPage() {
                       <button
                         key={q.label}
                         onClick={() => { setAiInput(q.prompt); }}
-                        className="p-3 rounded-xl bg-navy-800 border border-navy-600 hover:border-gold-500 hover:border-opacity-40 transition-all text-left"
+                        className="p-3 rounded-xl bg-gray-50 border border-gray-200 hover:border-gold-400 transition-all text-left"
                       >
-                        <p className="text-xs font-display font-600 text-white text-opacity-70 leading-tight">{q.label}</p>
+                        <p className="text-xs font-display font-600 text-gray-700 leading-tight">{q.label}</p>
                       </button>
                     ))}
                   </div>
@@ -1368,7 +1368,7 @@ export default function CaseManagementPage() {
                       <div ref={aiChatEndRef} />
                     </div>
 
-                    <div className="flex gap-3 pt-4 border-t border-navy-600">
+                    <div className="flex gap-3 pt-4 border-t border-gray-200">
                       <input
                         type="text"
                         value={aiInput}
@@ -1388,10 +1388,10 @@ export default function CaseManagementPage() {
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-navy-800 border border-navy-600">
+                  <div className="p-4 rounded-2xl bg-gray-50 border border-gray-200">
                     <div className="flex items-start gap-3">
-                      <Icon name="InformationCircleIcon" size={16} className="text-gold-400 flex-shrink-0 mt-0.5" />
-                      <p className="text-xs text-white text-opacity-50 leading-relaxed">
+                      <Icon name="InformationCircleIcon" size={16} className="text-gold-500 flex-shrink-0 mt-0.5" />
+                      <p className="text-xs text-gray-500 leading-relaxed">
                         This AI assistant provides general legal information about UK family law. It is not a substitute for professional legal advice. For complex matters, consider consulting a solicitor or seeking help from a McKenzie Friend.
                       </p>
                     </div>

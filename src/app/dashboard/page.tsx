@@ -369,7 +369,7 @@ export default function DashboardPage() {
   const [newContact, setNewContact] = useState({
     child_name: '',
     contact_date: '',
-    contact_type: 'in_person' as 'in_person' | 'video' | 'phone',
+    contact_type: 'in_person\' as \'in_person\' | \'video\' | \'phone',
     notes: '',
     location: '',
   });
@@ -410,7 +410,7 @@ export default function DashboardPage() {
   const [sessionsLoading, setSessionsLoading] = useState(false);
   const activeSessionIdRef = useRef<string | null>(null);
 
-  const { response, isLoading: aiLoading, error: aiError, sendMessage } = useChat('ANTHROPIC', 'claude-sonnet-4-5-20250929', true);
+  const { response, isLoading: aiLoading, error: aiError, sendMessage } = useChat('ANTHROPIC', 'claude-haiku-4-5-20251001', true);
   const { fetchAllToolsContext } = useDashboardToolsContext(user?.id, activeCaseId);
 
   // Case Insights state
@@ -462,7 +462,7 @@ export default function DashboardPage() {
     if (send) {
       send([
         { role: 'user' as const, content: insightsPrompt },
-      ], { max_tokens: 8000, temperature: 0.3 });
+      ], { max_tokens: 4000, temperature: 0.3 });
     } else {
       isGeneratingInsightsRef.current = false;
       setInsightsLoading(false);
@@ -1167,7 +1167,7 @@ export default function DashboardPage() {
       { role: 'user' as const, content: userContent },
     ];
 
-    sendMessage(messages, { max_tokens: 16000, temperature: 0.3 });
+    sendMessage(messages, { max_tokens: 4096, temperature: 0.3 });
   }, [aiMessage, user, aiLoading, supabase, conversationHistory, sendMessage, activeCaseId, caseContext, fetchAllToolsContext, aiAttachedFiles, createNewSession]);
 
   const handleClearChat = useCallback(async () => {
@@ -1240,7 +1240,7 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0">
             <Icon name="ScaleIcon" size={20} className="text-white" />
           </div>
           <div className="w-6 h-6 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
@@ -1304,7 +1304,7 @@ export default function DashboardPage() {
               key={link.label}
               href={link.href}
               onClick={() => setSidebarOpen(false)}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl mb-0.5 text-xs font-700 transition-all duration-150 whitespace-nowrap flex-shrink-0"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl mb-0.5 text-xs font-700 transition-all duration-200 whitespace-nowrap flex-shrink-0"
               style={link.active
                 ? { background: 'rgba(245,158,11,0.1)', color: '#d97706', border: '1px solid rgba(245,158,11,0.2)' }
                 : { color: '#6b7280' }
@@ -1318,7 +1318,7 @@ export default function DashboardPage() {
           <p className="px-2 mt-6 mb-3 text-gray-400 uppercase tracking-widest font-700" style={{ fontSize: '9px' }}>Tools</p>
           <button
             onClick={() => { setSidebarOpen(false); setTimeout(() => { const el = document.getElementById('tools-section'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl mb-0.5 text-xs font-700 transition-all duration-150 whitespace-nowrap flex-shrink-0"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl mb-0.5 text-xs font-700 transition-all duration-200 whitespace-nowrap flex-shrink-0"
           >
             <Icon name="SparklesIcon" size={14} className="text-gray-400" />
             <span className="flex-1">AI &amp; Tools</span>
@@ -1333,7 +1333,7 @@ export default function DashboardPage() {
             { icon: 'Cog6ToothIcon', label: 'Settings', href: '/settings' },
           ].map((link) => (
             <Link key={link.label} href={link.href} onClick={() => setSidebarOpen(false)}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl mb-0.5 text-xs font-600 transition-all duration-150 text-gray-600 hover:bg-gray-50"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl mb-0.5 text-xs font-600 transition-all duration-200 text-gray-600 hover:bg-gray-50"
             >
               <Icon name={link.icon as any} size={14} className="text-gray-400" />
               <span className="flex-1">{link.label}</span>
@@ -1621,7 +1621,7 @@ export default function DashboardPage() {
                 ].map((card) => (
                   <div key={card.label} className="rounded-2xl p-4 sm:p-5 bg-white border border-gray-200">
                     <div className="flex items-center justify-between mb-3">
-                      <div className="w-8 h-8 rounded-xl flex flex-col items-center justify-center" style={{ background: card.bg }}>
+                      <div className="w-8 h-8 rounded-xl flex flex-col items-center justify-center bg-gray-50">
                         <Icon name={card.icon as any} size={14} style={{ color: card.accent }} />
                       </div>
                       <span className="text-xs font-display font-900 text-gray-900">{card.value}</span>

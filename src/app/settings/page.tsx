@@ -253,15 +253,15 @@ export default function SettingsPage() {
     <div className="min-h-screen bg-white flex">
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 glass-dark border-r border-white border-opacity-10 flex flex-col transition-transform duration-300 ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0 lg:static lg:flex`}
       >
-        <div className="p-6 border-b border-white border-opacity-10">
+        <div className="p-6 border-b border-gray-200">
           <Link href="/homepage" className="flex items-center gap-3">
             <AppLogo size={32} iconName="ScaleIcon" className="text-gold-500" />
             <div className="flex flex-col">
-              <span className="font-display font-900 text-base tracking-tight text-white leading-none">
+              <span className="font-display font-900 text-base tracking-tight text-gray-900 leading-none">
                 Court<span className="text-gold-500">Craft</span>
               </span>
               <span className="label-tag text-gold-500 opacity-70 leading-none" style={{ fontSize: '8px' }}>
@@ -278,7 +278,7 @@ export default function SettingsPage() {
               href={link.href}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                 link.active
-                  ? 'bg-gold-500 bg-opacity-15 border border-gold-500 border-opacity-30 text-gold-400' :'text-white text-opacity-60 hover:text-white hover:bg-white hover:bg-opacity-5'
+                  ? 'bg-gold-500 bg-opacity-15 border border-gold-500 border-opacity-30 text-gold-600' :'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
               }`}
             >
               <Icon name={link.icon} size={18} />
@@ -287,10 +287,10 @@ export default function SettingsPage() {
           ))}
         </nav>
 
-        <div className="p-4 border-t border-white border-opacity-10">
+        <div className="p-4 border-t border-gray-200">
           <button
             onClick={signOut}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-white text-opacity-50 hover:text-danger hover:bg-white hover:bg-opacity-5 transition-all duration-200"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 hover:text-red-500 hover:bg-red-50 transition-all duration-200"
           >
             <Icon name="ArrowRightOnRectangleIcon" size={18} />
             <span className="font-display font-700 text-xs tracking-wide uppercase">Sign Out</span>
@@ -301,7 +301,7 @@ export default function SettingsPage() {
       {/* Overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-30 bg-black bg-opacity-50 lg:hidden"
+          className="fixed inset-0 z-30 bg-black bg-opacity-30 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -309,21 +309,21 @@ export default function SettingsPage() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Bar */}
-        <header className="sticky top-0 z-20 glass-navy border-b border-white border-opacity-10 px-6 py-4 flex items-center justify-between">
+        <header className="sticky top-0 z-20 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
-              className="lg:hidden w-9 h-9 rounded-xl bg-navy-700 border border-navy-600 flex items-center justify-center text-white"
+              className="lg:hidden w-9 h-9 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-600"
               onClick={() => setSidebarOpen(true)}
             >
               <Icon name="Bars3Icon" size={18} />
             </button>
             <div>
-              <h1 className="font-display font-800 text-lg text-white leading-none">Settings</h1>
-              <p className="text-white text-opacity-40 text-xs mt-0.5">Manage your account and preferences</p>
+              <h1 className="font-display font-800 text-lg text-gray-900 leading-none">Settings</h1>
+              <p className="text-gray-400 text-xs mt-0.5">Manage your account and preferences</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <BackButton className="text-white/60 hover:text-gold-400" label="Back" />
+            <BackButton className="text-gray-500 hover:text-gold-500" label="Back" />
             <NotificationBell />
             <div className="w-9 h-9 rounded-xl bg-gold-500 bg-opacity-20 border border-gold-500 border-opacity-30 flex items-center justify-center">
               <span className="font-display font-800 text-xs text-gold-400">
@@ -356,7 +356,7 @@ export default function SettingsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl border font-display font-700 text-xs tracking-wide uppercase whitespace-nowrap transition-all duration-200 ${
                   activeTab === tab.id
-                    ? 'bg-gold-500 bg-opacity-15 border-gold-500 border-opacity-40 text-gold-400' :'bg-navy-800 border-navy-600 text-white text-opacity-50 hover:text-white hover:border-navy-500'
+                    ? 'bg-gold-500 bg-opacity-15 border-gold-500 border-opacity-40 text-gold-600' :'bg-white border-gray-200 text-gray-500 hover:text-gray-900 hover:border-gray-300'
                 }`}
               >
                 <Icon name={tab.icon} size={15} />
@@ -387,7 +387,7 @@ export default function SettingsPage() {
                     type="text"
                     value={accountForm.fullName}
                     onChange={(e) => setAccountForm({ ...accountForm, fullName: e.target.value })}
-                    className="w-full bg-navy-900 border border-navy-600 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500 transition-colors"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-gold-500 transition-colors"
                     placeholder="Your full name"
                   />
                 </div>
@@ -400,7 +400,7 @@ export default function SettingsPage() {
                     type="email"
                     value={accountForm.email}
                     disabled
-                    className="w-full bg-navy-900 border border-navy-600 rounded-xl px-4 py-3 text-white text-opacity-40 text-sm cursor-not-allowed"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-400 text-sm cursor-not-allowed"
                     placeholder="your@email.com"
                   />
                   <p className="text-white text-opacity-30 text-xs mt-1.5">Email cannot be changed here</p>
@@ -414,7 +414,7 @@ export default function SettingsPage() {
                     type="tel"
                     value={accountForm.phone}
                     onChange={(e) => setAccountForm({ ...accountForm, phone: e.target.value })}
-                    className="w-full bg-navy-900 border border-navy-600 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500 transition-colors"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-gold-500 transition-colors"
                     placeholder="+44 7700 000000"
                   />
                 </div>
@@ -426,7 +426,7 @@ export default function SettingsPage() {
                   <select
                     value={accountForm.country}
                     onChange={(e) => setAccountForm({ ...accountForm, country: e.target.value })}
-                    className="w-full bg-navy-900 border border-navy-600 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500 transition-colors"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-gold-500 transition-colors"
                   >
                     <option value="GB">United Kingdom</option>
                     <option value="IE">Ireland</option>
@@ -482,7 +482,7 @@ export default function SettingsPage() {
                     type="password"
                     value={passwordForm.currentPassword}
                     onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
-                    className="w-full bg-navy-900 border border-navy-600 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500 transition-colors"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-gold-500 transition-colors"
                     placeholder="••••••••"
                   />
                 </div>
@@ -495,7 +495,7 @@ export default function SettingsPage() {
                     type="password"
                     value={passwordForm.newPassword}
                     onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
-                    className="w-full bg-navy-900 border border-navy-600 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500 transition-colors"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-gold-500 transition-colors"
                     placeholder="Min. 8 characters"
                   />
                 </div>
@@ -508,7 +508,7 @@ export default function SettingsPage() {
                     type="password"
                     value={passwordForm.confirmPassword}
                     onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
-                    className="w-full bg-navy-900 border border-navy-600 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-500 transition-colors"
+                    className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 text-sm focus:outline-none focus:border-gold-500 transition-colors"
                     placeholder="••••••••"
                   />
                   {passwordForm.confirmPassword && passwordForm.newPassword !== passwordForm.confirmPassword && (
@@ -519,8 +519,8 @@ export default function SettingsPage() {
                   )}
                 </div>
 
-                <div className="p-4 rounded-xl bg-navy-900 border border-navy-600">
-                  <p className="font-display font-700 text-xs text-white text-opacity-50 uppercase tracking-widest mb-2">Password requirements</p>
+                <div className="p-4 rounded-xl bg-gray-50 border border-gray-200">
+                  <p className="font-display font-700 text-xs text-gray-500 uppercase tracking-widest mb-2">Password requirements</p>
                   <ul className="space-y-1">
                     {[
                       { label: 'At least 8 characters', met: passwordForm.newPassword.length >= 8 },
@@ -584,7 +584,7 @@ export default function SettingsPage() {
                   ] as { key: keyof NotificationPrefs; label: string; desc: string }[]).map((item) => (
                     <div
                       key={item.key}
-                      className="flex items-center justify-between p-4 rounded-xl bg-navy-900 border border-navy-600 hover:border-navy-500 transition-colors"
+                      className="flex items-center justify-between p-4 rounded-xl bg-white border border-gray-200 hover:border-gray-300 transition-colors"
                     >
                       <div>
                         <p className="font-display font-700 text-sm text-white">{item.label}</p>
@@ -593,7 +593,7 @@ export default function SettingsPage() {
                       <button
                         onClick={() => setNotifPrefs({ ...notifPrefs, [item.key]: !notifPrefs[item.key] })}
                         className={`relative w-12 h-6 rounded-full transition-all duration-300 flex-shrink-0 ${
-                          notifPrefs[item.key] ? 'bg-gold-500' : 'bg-navy-600'
+                          notifPrefs[item.key] ? 'bg-gold-500' : 'bg-gray-300'
                         }`}
                       >
                         <span
@@ -630,7 +630,7 @@ export default function SettingsPage() {
                           key={opt}
                           className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all duration-200 ${
                             emailFreq.courtReminders === opt
-                              ? 'border-gold-500 border-opacity-40 bg-gold-500 bg-opacity-10' :'border-navy-600 bg-navy-900 hover:border-navy-500'
+                              ? 'border-gold-500 border-opacity-40 bg-gold-500 bg-opacity-10' :'border-gray-200 bg-white hover:border-gray-300'
                           }`}
                         >
                           <div
@@ -664,7 +664,7 @@ export default function SettingsPage() {
                           key={opt}
                           className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all duration-200 ${
                             emailFreq.digest === opt
-                              ? 'border-gold-500 border-opacity-40 bg-gold-500 bg-opacity-10' :'border-navy-600 bg-navy-900 hover:border-navy-500'
+                              ? 'border-gold-500 border-opacity-40 bg-gold-500 bg-opacity-10' :'border-gray-200 bg-white hover:border-gray-300'
                           }`}
                         >
                           <div
@@ -736,7 +736,7 @@ export default function SettingsPage() {
                     { icon: 'ChatBubbleLeftRightIcon', label: 'Communications', desc: 'Communication logs' },
                     { icon: 'UserCircleIcon', label: 'Profile', desc: 'Your account information' },
                   ].map((item) => (
-                    <div key={item.label} className="flex items-start gap-3 p-4 rounded-xl bg-navy-900 border border-navy-600">
+                    <div key={item.label} className="flex items-start gap-3 p-4 rounded-xl bg-white border border-gray-200">
                       <div className="w-8 h-8 rounded-lg bg-gold-500 bg-opacity-10 flex items-center justify-center flex-shrink-0 mt-0.5">
                         <Icon name={item.icon} size={15} className="text-gold-400" />
                       </div>
@@ -748,9 +748,9 @@ export default function SettingsPage() {
                   ))}
                 </div>
 
-                <div className="p-4 rounded-xl bg-navy-900 border border-navy-600 mb-6">
-                  <p className="text-white text-opacity-50 text-xs leading-relaxed">
-                    Your data will be exported as a <strong className="text-white text-opacity-70">JSON file</strong>. This includes all cases, documents, timeline events, finance entries, and communication logs associated with your account.
+                <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 mb-6">
+                  <p className="text-gray-500 text-xs leading-relaxed">
+                    Your data will be exported as a <strong className="text-gray-700">JSON file</strong>. This includes all cases, documents, timeline events, finance entries, and communication logs associated with your account.
                   </p>
                 </div>
 
@@ -785,9 +785,9 @@ export default function SettingsPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 rounded-xl bg-navy-900 border border-red-500 border-opacity-20">
+                <div className="flex items-center justify-between p-4 rounded-xl bg-white border border-red-200">
                   <div>
-                    <p className="font-display font-700 text-sm text-white">Delete Account</p>
+                    <p className="font-display font-700 text-sm text-gray-900">Delete Account</p>
                     <p className="text-white text-opacity-40 text-xs mt-0.5">Permanently delete your account and all associated data</p>
                   </div>
                   <button

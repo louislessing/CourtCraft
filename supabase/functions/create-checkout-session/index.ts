@@ -1,9 +1,11 @@
-// Deployed: 2026-03-23
+// Deployed: 2026-04-02
 import { serve } from "https://deno.land/std@0.192.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!);
+const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
+  apiVersion: "2024-06-20",
+});
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
@@ -38,7 +40,6 @@ serve(async (req) => {
       .single();
 
     // Always use auth.users.created_at as the authoritative account creation date
-    // This ensures the 7-day trial is always counted from the actual signup date
     const { data: authUser } = await supabase.auth.admin.getUserById(userId);
     const accountCreatedAt = authUser?.user?.created_at || profile?.created_at || new Date().toISOString();
 
@@ -52,13 +53,11 @@ serve(async (req) => {
       });
       customerId = customer.id;
 
-      // Save customer ID to profile
       await supabase
         .from("user_profiles")
         .update({ stripe_customer_id: customerId })
         .eq("id", userId);
     } else {
-      // Update customer details
       await stripe.customers.update(customerId, {
         email,
         name: fullName || email,
@@ -66,7 +65,6 @@ serve(async (req) => {
     }
 
     // Calculate trial days remaining from registration date
-    // First payment is taken exactly 7 days after registration
     let trialPeriodDays = 0;
     const registeredAt = new Date(accountCreatedAt).getTime();
     const firstPaymentAt = registeredAt + 7 * 24 * 60 * 60 * 1000;
@@ -78,7 +76,6 @@ serve(async (req) => {
     const subscriptionData: Record<string, unknown> = {
       metadata: {
         userId,
-        plan: "monthly",
       },
     };
     if (trialPeriodDays > 0) {
@@ -110,7 +107,6 @@ serve(async (req) => {
       cancel_url: cancelUrl || `${Deno.env.get("SITE_URL") || Deno.env.get("NEXT_PUBLIC_SITE_URL") || "https://courtcraftadvocate.com"}/subscription?canceled=true`,
       metadata: {
         userId,
-        plan: "monthly",
       },
       subscription_data: subscriptionData,
       allow_promotion_codes: false,
@@ -130,7 +126,6 @@ serve(async (req) => {
           status: "trialing",
           currency: "GBP",
           amount: 35,
-          plan: "monthly",
           trial_end: trialEnd,
           current_period_end: trialEnd,
         },

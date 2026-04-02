@@ -453,17 +453,17 @@ export default function ResourcesPage() {
         {/* CTA */}
         <section className="py-10 sm:py-14 lg:py-16 px-4 sm:px-6 bg-white">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="reveal-hidden rounded-3xl border border-gold-300 p-6 sm:p-8 lg:p-14 relative overflow-hidden bg-navy-950"
-            style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.06), rgba(10,22,40,0.95))' }}>
+            <div className="reveal-hidden rounded-3xl border border-gold-300 p-6 sm:p-8 lg:p-14 relative overflow-hidden bg-white"
+            style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.06), rgba(255,255,255,1))' }}>
               <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 60% 60% at 50% 0%, rgba(201,168,76,0.08), transparent)' }} />
               <div className="relative z-10">
                 <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gold-gradient flex items-center justify-center mx-auto mb-4 sm:mb-5 lg:mb-6">
                   <Icon name="ScaleIcon" size={28} className="text-navy-900" />
                 </div>
-                <h2 className="font-display font-900 tracking-tight text-xl sm:text-2xl lg:text-4xl text-white mb-3 sm:mb-4 leading-tight">
+                <h2 className="font-display font-900 tracking-tight text-xl sm:text-2xl lg:text-4xl text-gray-900 mb-3 sm:mb-4 leading-tight">
                   Ready to Take Control?
                 </h2>
-                <p className="text-white text-opacity-60 text-sm sm:text-base lg:text-lg mb-5 sm:mb-6 lg:mb-8 leading-relaxed">
+                <p className="text-gray-500 text-sm sm:text-base lg:text-lg mb-5 sm:mb-6 lg:mb-8 leading-relaxed">
                   Unlock the full library of 50+ templates, all guides, and AI assistance for just £35/month.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">

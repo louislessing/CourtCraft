@@ -109,7 +109,7 @@ function CheckoutForm({ clientSecret, userId, onSuccess }: CheckoutFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="bg-navy-800 border border-gold-500 border-opacity-20 rounded-2xl p-4 sm:p-5">
+      <div className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-5">
         <PaymentElement
           options={{
             layout: { type: 'tabs', defaultCollapsed: false },
@@ -261,11 +261,11 @@ export default function SubscriptionPage() {
   const curr = currencyMap[currency];
 
   if (loading) {
-    return <div className="min-h-screen bg-navy-950 flex items-center justify-center"><div className="w-8 h-8 border-2 border-gold-500 border-t-transparent rounded-full animate-spin" /></div>;
+    return <div className="min-h-screen bg-white flex items-center justify-center"><div className="w-8 h-8 border-2 border-gold-500 border-t-transparent rounded-full animate-spin" /></div>;
   }
 
   return (
-    <div className="min-h-screen bg-navy-950 flex flex-col items-center justify-center p-4 sm:p-6">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4 sm:p-6">
       <Toaster
         position="top-center"
         containerStyle={{ top: 16 }}
@@ -321,7 +321,7 @@ export default function SubscriptionPage() {
         </div>
 
         {success && !showSuccessModal ? (
-          <div className="bg-navy-900 border border-gold-500 border-opacity-20 rounded-3xl p-6 sm:p-8 text-center space-y-4">
+          <div className="bg-white border border-gray-200 rounded-3xl p-6 sm:p-8 text-center space-y-4">
             <div className="w-16 h-16 rounded-full bg-green-500 bg-opacity-20 flex items-center justify-center mx-auto">
               <Icon name="CheckCircleIcon" size={32} className="text-green-400" />
             </div>
@@ -329,25 +329,25 @@ export default function SubscriptionPage() {
             <p className="text-white text-opacity-60">Your CourtCraft Advocate subscription is now active. Redirecting to your dashboard...</p>
           </div>
         ) : subscription?.status === 'active' ? (
-          <div className="bg-navy-900 border border-gold-500 border-opacity-20 rounded-3xl p-6 sm:p-8 space-y-6">
+          <div className="bg-white border border-gray-200 rounded-3xl p-6 sm:p-8 space-y-6">
             <div className="text-center">
               <div className="w-16 h-16 rounded-full bg-gold-gradient flex items-center justify-center mx-auto mb-4">
                 <Icon name="ShieldCheckIcon" size={28} className="text-navy-900" />
               </div>
               <h2 className="font-display font-800 text-2xl text-white mb-2">Active Subscription</h2>
-              <p className="text-white text-opacity-60">Your CourtCraft Advocate subscription is active.</p>
+              <p className="text-gray-500">Your CourtCraft Advocate subscription is active.</p>
             </div>
-            <div className="bg-navy-800 rounded-2xl p-4 space-y-2">
+            <div className="bg-gray-50 rounded-2xl p-4 space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-white text-opacity-50">Status</span>
+                <span className="text-gray-500">Status</span>
                 <span className="text-green-400 font-700">Active ✓</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-white text-opacity-50">Amount</span>
+                <span className="text-gray-500">Amount</span>
                 <span className="text-white">£{subscription?.amount}/month</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-white text-opacity-50">Next billing</span>
+                <span className="text-gray-500">Next billing</span>
                 <span className="text-white">{subscription?.current_period_end ? new Date(subscription.current_period_end).toLocaleDateString('en-GB') : '—'}</span>
               </div>
             </div>
@@ -357,9 +357,9 @@ export default function SubscriptionPage() {
             </Link>
           </div>
         ) : (
-          <div className="bg-navy-900 border border-gold-500 border-opacity-20 rounded-3xl p-5 sm:p-8 space-y-5 sm:space-y-6">
+          <div className="bg-white border border-gray-200 rounded-3xl p-5 sm:p-8 space-y-5 sm:space-y-6">
             <div className="text-center">
-              <h2 className="font-display font-800 text-xl sm:text-2xl text-white mb-2">Activate Your Subscription</h2>
+              <h2 className="font-display font-800 text-xl sm:text-2xl text-gray-900 mb-2">Activate Your Subscription</h2>
               <p className="text-white text-opacity-60 text-sm">Full access to CourtCraft Advocate for {curr.flag} {curr.symbol}{curr.price}/month</p>
             </div>
 
@@ -410,9 +410,9 @@ export default function SubscriptionPage() {
             </div>
 
             {/* Price */}
-            <div className="bg-navy-800 rounded-2xl p-4 text-center">
-              <p className="font-display font-900 text-3xl text-gold-400">{curr.symbol}{curr.price}<span className="text-lg text-white text-opacity-50">/month</span></p>
-              <p className="text-xs text-white text-opacity-60 mt-1">Cancel anytime. No hidden fees.</p>
+            <div className="bg-gray-50 rounded-2xl p-4 text-center">
+              <p className="font-display font-900 text-3xl text-gold-500">{curr.symbol}{curr.price}<span className="text-lg text-gray-400">/month</span></p>
+              <p className="text-xs text-gray-500 mt-1">Cancel anytime. No hidden fees.</p>
             </div>
 
             {paymentError && (

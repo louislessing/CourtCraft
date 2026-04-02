@@ -628,14 +628,14 @@ export default function DocumentBuilderPage() {
         variant="gold"
       />
 
-      <aside className={`fixed lg:static inset-y-0 left-0 z-40 w-64 bg-navy-900 border-r border-navy-600 flex flex-col transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-        <div className="p-4 sm:p-5 border-b border-navy-600 flex items-center justify-between">
+      <aside className={`fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+        <div className="p-4 sm:p-5 border-b border-gray-200 flex items-center justify-between">
           <Link href="/homepage" className="flex items-center gap-3">
             <AppLogo size={32} iconName="ScaleIcon" />
-            <span className="font-display font-900 text-lg text-white tracking-tight">Court<span className="text-gold-500">Craft</span></span>
+            <span className="font-display font-900 text-lg text-gray-900 tracking-tight">Court<span className="text-gold-500">Craft</span></span>
           </Link>
-          <button className="lg:hidden p-2 rounded-lg hover:bg-navy-700 transition-colors" onClick={() => setSidebarOpen(false)}>
-            <Icon name="XMarkIcon" size={16} className="text-white/60" />
+          <button className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors" onClick={() => setSidebarOpen(false)}>
+            <Icon name="XMarkIcon" size={16} className="text-gray-500" />
           </button>
         </div>
         <nav className="flex-1 p-3 sm:p-4 space-y-1 overflow-y-auto">
@@ -648,14 +648,14 @@ export default function DocumentBuilderPage() {
         </nav>
 
         {myDocuments.length > 0 && (
-          <div className="p-4 border-t border-navy-600">
-            <p className="label-tag text-white text-opacity-40 mb-3" style={{ fontSize: '9px' }}>MY DOCUMENTS</p>
+          <div className="p-4 border-t border-gray-200">
+            <p className="label-tag text-gray-400 mb-3" style={{ fontSize: '9px' }}>MY DOCUMENTS</p>
             <div className="space-y-2">
               {myDocuments.slice(0, 5).map((doc) => (
-                <button key={doc.id} onClick={() => handleLoadDocument(doc)} className="w-full text-left flex items-center gap-2 p-2 rounded-xl hover:bg-navy-700 transition-colors">
-                  <Icon name="DocumentTextIcon" size={14} className="text-gold-400 flex-shrink-0" />
+                <button key={doc.id} onClick={() => handleLoadDocument(doc)} className="w-full text-left flex items-center gap-2 p-2 rounded-xl hover:bg-gray-100 transition-colors">
+                  <Icon name="DocumentTextIcon" size={14} className="text-gold-500 flex-shrink-0" />
                   <div className="min-w-0">
-                    <p className="text-xs text-white truncate">{doc.title}</p>
+                    <p className="text-xs text-gray-700 truncate">{doc.title}</p>
                     <span className={`badge ${doc.status === 'complete' ? 'badge-green' : 'badge-blue'}`} style={{ fontSize: '7px' }}>{doc.status}</span>
                   </div>
                 </button>
@@ -665,21 +665,21 @@ export default function DocumentBuilderPage() {
         )}
       </aside>
 
-      {sidebarOpen && <div className="fixed inset-0 bg-black bg-opacity-60 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && <div className="fixed inset-0 bg-black bg-opacity-40 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />}
 
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <header className="bg-navy-900 border-b border-navy-600 px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center justify-between flex-shrink-0">
+        <header className="bg-white border-b border-gray-200 px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
             <button className="lg:hidden p-2 -ml-1 min-w-[36px] min-h-[36px] flex items-center justify-center" onClick={() => setSidebarOpen(true)}>
-              <Icon name="Bars3Icon" size={22} className="text-white opacity-60" />
+              <Icon name="Bars3Icon" size={22} className="text-gray-500" />
             </button>
             <div>
-              <h1 className="font-display font-800 text-white text-sm sm:text-base lg:text-lg">Document Builder</h1>
-              <p className="text-xs text-white text-opacity-40 hidden sm:block">AI-Assisted Court Document Generation</p>
+              <h1 className="font-display font-800 text-gray-900 text-sm sm:text-base lg:text-lg">Document Builder</h1>
+              <p className="text-xs text-gray-500 hidden sm:block">AI-Assisted Court Document Generation</p>
             </div>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-3">
-            <BackButton className="text-white/60 hover:text-gold-400 hidden sm:inline-flex" label="Back" />
+            <BackButton className="text-gray-500 hover:text-gold-500 hidden sm:inline-flex" label="Back" />
             {step !== 'select' && (
               <button onClick={() => { setStep('select'); setSavedDocId(null); }} className="btn-outline text-xs py-2 px-2.5 sm:px-4 disabled:opacity-50">
                 <Icon name="ArrowLeftIcon" size={14} />
@@ -719,9 +719,9 @@ export default function DocumentBuilderPage() {
             <div className="space-y-5 sm:space-y-6">
               {/* Mode toggle — Build vs Review */}
               <div className="flex gap-3">
-                <div className="flex bg-navy-50 rounded-2xl p-1 gap-1">
+                <div className="flex bg-gray-100 rounded-2xl p-1 gap-1">
                   <button
-                    className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl text-sm font-600 bg-navy-900 text-white shadow-sm transition-all"
+                    className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl text-sm font-600 bg-white text-gray-900 shadow-sm transition-all"
                   >
                     <Icon name="DocumentTextIcon" size={15} />
                     <span className="hidden sm:inline">Build Document</span>
@@ -729,7 +729,7 @@ export default function DocumentBuilderPage() {
                   </button>
                   <button
                     onClick={() => setStep('review')}
-                    className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl text-sm font-600 text-navy-600 hover:text-navy-900 hover:bg-white transition-all"
+                    className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl text-sm font-600 text-gray-600 hover:text-gray-900 hover:bg-white transition-all"
                   >
                     <Icon name="MagnifyingGlassIcon" size={15} />
                     <span className="hidden sm:inline">AI Review</span>
@@ -754,14 +754,14 @@ export default function DocumentBuilderPage() {
                 {filtered.map((template) => (
                   <div key={template.id} className={`doc-template-card cursor-pointer ${selectedTemplate === template.id ? 'selected' : ''}`} onClick={() => handleSelectTemplate(template.id)}>
                     {template.popular && <div className="absolute top-3 right-3"><span className="badge badge-gold" style={{ fontSize: '8px' }}>Popular</span></div>}
-                    <div className="w-10 h-10 rounded-xl bg-navy-700 flex items-center justify-center text-gold-400 mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gold-500 mb-4">
                       <Icon name={template.icon as any} size={20} />
                     </div>
-                    <h3 className="font-display font-700 text-white text-sm mb-2 leading-tight">{template.title}</h3>
-                    <p className="text-xs text-white text-opacity-50 leading-relaxed mb-4">{template.description}</p>
+                    <h3 className="font-display font-700 text-gray-900 text-sm mb-2 leading-tight">{template.title}</h3>
+                    <p className="text-xs text-gray-500 leading-relaxed mb-4">{template.description}</p>
                     <div className="flex items-center justify-between">
                       <span className="badge badge-blue" style={{ fontSize: '8px' }}>{template.category}</span>
-                      <span className="label-tag text-white text-opacity-30" style={{ fontSize: '9px' }}>{template.pages}</span>
+                      <span className="label-tag text-gray-400" style={{ fontSize: '9px' }}>{template.pages}</span>
                     </div>
                   </div>
                 ))}
@@ -793,8 +793,8 @@ export default function DocumentBuilderPage() {
                 <div className="space-y-4">
                   <div className="surface-card rounded-3xl p-6 space-y-5">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-navy-700 flex items-center justify-center">
-                        <Icon name="DocumentArrowUpIcon" size={18} className="text-gold-400" />
+                      <div className="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center">
+                        <Icon name="DocumentArrowUpIcon" size={18} className="text-gold-500" />
                       </div>
                       <div>
                         <p className="font-display font-700 text-navy-900 text-sm">Your Document</p>
@@ -836,7 +836,7 @@ export default function DocumentBuilderPage() {
                       <button
                         type="button"
                         onClick={() => reviewFileInputRef.current?.click()}
-                        className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-navy-200 hover:border-gold-400 rounded-2xl py-4 text-sm text-navy-500 hover:text-gold-600 transition-colors"
+                        className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-gray-200 hover:border-gold-400 rounded-2xl py-4 text-sm text-gray-500 hover:text-gold-600 transition-colors"
                       >
                         <Icon name="ArrowUpTrayIcon" size={18} className="text-gold-400" />
                         {reviewFile ? (
@@ -859,9 +859,9 @@ export default function DocumentBuilderPage() {
 
                     {/* Divider */}
                     <div className="flex items-center gap-3">
-                      <div className="flex-1 h-px bg-navy-100" />
-                      <span className="text-xs text-navy-400 font-500">or paste text below</span>
-                      <div className="flex-1 h-px bg-navy-100" />
+                      <div className="flex-1 h-px bg-gray-200" />
+                      <span className="text-xs text-gray-400 font-500">or paste text below</span>
+                      <div className="flex-1 h-px bg-gray-200" />
                     </div>
 
                     {/* Text paste area */}
@@ -886,7 +886,7 @@ export default function DocumentBuilderPage() {
                     >
                       {reviewLoading ? (
                         <>
-                          <div className="w-4 h-4 border-2 border-navy-900 border-t-transparent rounded-full animate-spin" />
+                          <div className="w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
                           Analysing document…
                         </>
                       ) : (
@@ -899,8 +899,8 @@ export default function DocumentBuilderPage() {
                   </div>
 
                   {/* Tips card */}
-                  <div className="surface-card rounded-3xl p-5 bg-navy-50 border border-navy-100">
-                    <p className="font-display font-700 text-navy-900 text-sm mb-3 flex items-center gap-2">
+                  <div className="surface-card rounded-3xl p-5 bg-gray-50 border border-gray-100">
+                    <p className="font-display font-700 text-gray-900 text-sm mb-3 flex items-center gap-2">
                       <Icon name="LightBulbIcon" size={15} className="text-gold-500" />
                       What the AI reviews
                     </p>
@@ -912,7 +912,7 @@ export default function DocumentBuilderPage() {
                         'Clarity and persuasiveness of arguments',
                         'Specific rewrite suggestions with examples',
                       ].map((tip) => (
-                        <li key={tip} className="flex items-start gap-2 text-xs text-navy-600">
+                        <li key={tip} className="flex items-start gap-1 text-xs text-navy-600">
                           <Icon name="CheckCircleIcon" size={13} className="text-gold-500 flex-shrink-0 mt-0.5" />
                           {tip}
                         </li>
@@ -949,11 +949,11 @@ export default function DocumentBuilderPage() {
                   <div className="flex-1 overflow-y-auto">
                     {!reviewFeedback && !reviewLoading && !reviewResponse && (
                       <div className="h-full flex flex-col items-center justify-center text-center py-12 px-6">
-                        <div className="w-16 h-16 rounded-2xl bg-navy-50 flex items-center justify-center mb-4">
-                          <Icon name="DocumentMagnifyingGlassIcon" size={32} className="text-navy-300" />
+                        <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
+                          <Icon name="DocumentMagnifyingGlassIcon" size={32} className="text-gray-400" />
                         </div>
-                        <p className="font-display font-700 text-navy-400 text-sm mb-2">No review yet</p>
-                        <p className="text-xs text-navy-400 leading-relaxed">Paste your document text or upload a file, then click <strong>Run AI Review</strong> to receive detailed feedback.</p>
+                        <p className="font-display font-700 text-gray-400 text-sm mb-2">No review yet</p>
+                        <p className="text-xs text-gray-400 leading-relaxed">Paste your document text or upload a file, then click <strong>Run AI Review</strong> to receive detailed feedback.</p>
                       </div>
                     )}
 
@@ -981,9 +981,9 @@ export default function DocumentBuilderPage() {
                   </div>
 
                   {reviewFeedback && (
-                    <div className="mt-5 pt-4 border-t border-navy-100">
-                      <p className="text-xs text-navy-400 italic flex items-start gap-1.5">
-                        <Icon name="InformationCircleIcon" size={13} className="text-navy-300 flex-shrink-0 mt-0.5" />
+                    <div className="mt-5 pt-4 border-t border-gray-100">
+                      <p className="text-xs text-gray-400 italic flex items-start gap-1.5">
+                        <Icon name="InformationCircleIcon" size={13} className="text-gray-300 flex-shrink-0 mt-0.5" />
                         This AI review is provided for guidance only and does not constitute legal advice. CourtCraft Advocate provides McKenzie Friend lay support services only.
                       </p>
                       <button
@@ -1005,7 +1005,7 @@ export default function DocumentBuilderPage() {
               <div className="lg:col-span-3 space-y-6">
                 <div className="surface-card rounded-3xl p-6">
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-12 h-12 rounded-2xl bg-navy-700 flex items-center justify-center text-gold-400">
+                    <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center text-gold-500">
                       <Icon name={selectedDoc.icon as any} size={24} />
                     </div>
                     <div>
@@ -1014,7 +1014,7 @@ export default function DocumentBuilderPage() {
                     </div>
                   </div>
 
-                  <div className="space-y-5">
+                  <div className="space-y-6">
                     {fields.map((field) => (
                       <div key={field.label}>
                         <div className="flex items-center justify-between mb-2">
@@ -1024,7 +1024,7 @@ export default function DocumentBuilderPage() {
                               type="button"
                               onClick={() => handleAiSend(`Help me write the "${field.label}" section for my ${selectedDoc?.title}. ${formValues[field.label] ? `Current content: "${formValues[field.label]}"` : 'Provide a professional, court-appropriate draft.'}`)}
                               disabled={aiLoading}
-                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-600 transition-all disabled:opacity-40"
+                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-600 transition-all disabled:opacity-40"
                               style={{ background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.4)', color: '#c9a84c' }}
                             >
                               <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
@@ -1045,8 +1045,8 @@ export default function DocumentBuilderPage() {
                 {/* Evidence & Supporting Documents Upload */}
                 <div className="surface-card rounded-3xl p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-9 h-9 rounded-xl bg-navy-700 flex items-center justify-center">
-                      <Icon name="PaperClipIcon" size={18} className="text-gold-400" />
+                    <div className="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center">
+                      <Icon name="PaperClipIcon" size={18} className="text-gold-500" />
                     </div>
                     <div>
                       <p className="font-display font-700 text-navy-900 text-sm">Evidence &amp; Supporting Documents</p>
@@ -1092,7 +1092,7 @@ export default function DocumentBuilderPage() {
                         key={suggestion}
                         onClick={() => handleSuggestion(suggestion)}
                         disabled={aiLoading}
-                        className="text-xs px-3 py-1.5 rounded-lg bg-navy-50 border border-navy-100 hover:bg-navy-100 text-navy-700 hover:text-navy-900 transition-colors disabled:opacity-40 flex items-center gap-1"
+                        className="text-xs px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 hover:bg-gray-100 text-gray-700 hover:text-gray-900 transition-colors disabled:opacity-40 flex items-center gap-1"
                       >
                         <Icon name="SparklesIcon" size={10} className="text-gold-500" />
                         {suggestion}

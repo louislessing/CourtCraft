@@ -2,7 +2,9 @@ import { serve } from "https://deno.land/std@0.192.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!);
+const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
+  apiVersion: "2024-06-20",
+});
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
@@ -56,14 +58,11 @@ serve(async (req) => {
       setup_future_usage: "off_session",
       metadata: {
         userId: userId ?? "guest",
-        plan: "monthly",
         currency,
       },
     });
 
-    // Save subscription record as pending.
-    // First payment is taken 7 days after registration — use user_profiles.created_at
-    // to calculate the correct trial_end / first billing date.
+    // Save subscription record as pending
     if (userId) {
       // Fetch registration date to compute the 7-day first-payment date
       const { data: profileData } = await supabase
@@ -89,8 +88,6 @@ serve(async (req) => {
           amount: amount,
           payment_status: "pending",
           trial_end: firstPaymentDate.toISOString(),
-          // current_period_end reflects the first payment date so the dashboard
-          // shows the correct "Next Billing Date" during the trial period
           current_period_end: firstPaymentDate.toISOString(),
         },
         { onConflict: "user_id" }

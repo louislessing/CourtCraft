@@ -117,19 +117,19 @@ function AssetCard({ asset, folders, isSelected, onToggleSelect, onToggleFavorit
 
   return (
     <div
-      className={`relative bg-black/40 border rounded-2xl overflow-hidden transition-all group ${
-        isSelected ? 'border-gold-500/50 ring-1 ring-gold-500/20' : 'border-white/08 hover:border-white/15'
+      className={`relative bg-white border rounded-2xl overflow-hidden transition-all group ${
+        isSelected ? 'border-yellow-400 ring-1 ring-yellow-200' : 'border-gray-200 hover:border-gray-300'
       }`}
     >
       {/* Selection checkbox */}
       <button
         onClick={() => onToggleSelect(asset.id)}
         className={`absolute top-3 left-3 z-10 w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
-          isSelected ? 'bg-gold-500 border-gold-500' : 'bg-black/60 border-white/30 opacity-0 group-hover:opacity-100'
+          isSelected ? 'bg-black border-black' : 'bg-white border-gray-300 opacity-0 group-hover:opacity-100'
         }`}
       >
         {isSelected && (
-          <svg className="w-3 h-3 text-black" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
+          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         )}
@@ -140,7 +140,7 @@ function AssetCard({ asset, folders, isSelected, onToggleSelect, onToggleFavorit
         onClick={() => onToggleFavorite(asset.id)}
         className={`absolute top-3 right-10 z-10 w-7 h-7 rounded-lg flex items-center justify-center transition-all ${
           asset.isFavorite
-            ? 'text-yellow-400 bg-yellow-500/20' :'text-white/20 bg-black/60 opacity-0 group-hover:opacity-100 hover:text-yellow-400'
+            ? 'text-yellow-500 bg-yellow-50' :'text-gray-300 bg-white opacity-0 group-hover:opacity-100 hover:text-yellow-500'
         }`}
       >
         <svg className="w-3.5 h-3.5" fill={asset.isFavorite ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -152,28 +152,28 @@ function AssetCard({ asset, folders, isSelected, onToggleSelect, onToggleFavorit
       <div ref={menuRef} className="absolute top-3 right-3 z-10">
         <button
           onClick={() => setShowMenu(!showMenu)}
-          className="w-7 h-7 rounded-lg bg-black/60 flex items-center justify-center text-white/30 hover:text-white/70 opacity-0 group-hover:opacity-100 transition-all"
+          className="w-7 h-7 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-700 opacity-0 group-hover:opacity-100 transition-all"
         >
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 7a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 7a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
           </svg>
         </button>
         {showMenu && (
-          <div className="absolute right-0 top-8 w-44 bg-[#111] border border-white/10 rounded-xl shadow-2xl overflow-hidden z-20">
+          <div className="absolute right-0 top-8 w-44 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-20">
             <button
               onClick={() => { onDownload(asset); setShowMenu(false); }}
-              className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/05 transition-colors"
+              className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-600 hover:text-black hover:bg-gray-50 transition-colors"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
               Download
             </button>
-            <div className="border-t border-white/08">
-              <p className="px-4 py-1.5 text-white/25 text-xs font-bold tracking-widest uppercase">Move to folder</p>
+            <div className="border-t border-gray-100">
+              <p className="px-4 py-1.5 text-gray-400 text-xs font-bold tracking-widest uppercase">Move to folder</p>
               <button
                 onClick={() => { onMoveToFolder(asset.id, null); setShowMenu(false); }}
-                className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-white/50 hover:text-white hover:bg-white/05 transition-colors"
+                className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-gray-500 hover:text-black hover:bg-gray-50 transition-colors"
               >
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
@@ -184,17 +184,17 @@ function AssetCard({ asset, folders, isSelected, onToggleSelect, onToggleFavorit
                 <button
                   key={f.id}
                   onClick={() => { onMoveToFolder(asset.id, f.id); setShowMenu(false); }}
-                  className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-white/50 hover:text-white hover:bg-white/05 transition-colors"
+                  className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-gray-500 hover:text-black hover:bg-gray-50 transition-colors"
                 >
                   <span className={`w-2 h-2 rounded-full ${f.color.split(' ')[0].replace('bg-', 'bg-').replace('/20', '')}`} />
                   {f.name}
                 </button>
               ))}
             </div>
-            <div className="border-t border-white/08">
+            <div className="border-t border-gray-100">
               <button
                 onClick={() => { onDelete(asset.id); setShowMenu(false); }}
-                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
+                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
               >
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -207,7 +207,7 @@ function AssetCard({ asset, folders, isSelected, onToggleSelect, onToggleFavorit
       </div>
 
       {/* Asset preview */}
-      <div className="aspect-square bg-black/60 flex items-center justify-center overflow-hidden">
+      <div className="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden">
         {asset.type === 'image' ? (
           <img
             src={`data:image/png;base64,${asset.content}`}
@@ -226,19 +226,19 @@ function AssetCard({ asset, folders, isSelected, onToggleSelect, onToggleFavorit
       {/* Asset info */}
       <div className="p-3">
         <div className="flex items-start justify-between gap-2 mb-1.5">
-          <p className="text-white/80 text-xs font-bold leading-tight line-clamp-2 flex-1">{asset.label}</p>
+          <p className="text-black text-xs font-bold leading-tight line-clamp-2 flex-1">{asset.label}</p>
         </div>
         <div className="flex items-center justify-between">
           <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold border ${typeColor(asset.type)}`}>
             {typeLabel(asset.type)}
           </span>
-          <span className="text-white/25 text-xs">
+          <span className="text-gray-400 text-xs">
             {new Date(asset.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}
           </span>
         </div>
         <button
           onClick={() => onDownload(asset)}
-          className="mt-2.5 w-full flex items-center justify-center gap-1.5 py-1.5 bg-gold-500/10 hover:bg-gold-500/20 border border-gold-500/20 text-gold-400 rounded-lg text-xs font-bold transition-all"
+          className="mt-2.5 w-full flex items-center justify-center gap-1.5 py-1.5 bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 text-yellow-700 rounded-lg text-xs font-bold transition-all"
         >
           <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -256,30 +256,30 @@ function CreateFolderModal({ onClose, onCreate }: { onClose: () => void; onCreat
   const [selectedColor, setSelectedColor] = useState(FOLDER_COLORS[0]);
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-[#0d0d0d] border border-white/10 rounded-2xl w-full max-w-sm p-6">
-        <h3 className="text-white font-bold text-lg mb-4">New Folder</h3>
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-white border border-gray-200 rounded-2xl w-full max-w-sm p-6 shadow-xl">
+        <h3 className="text-black font-bold text-lg mb-4">New Folder</h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-white/50 text-xs font-bold tracking-widest uppercase mb-2">Folder Name</label>
+            <label className="block text-gray-500 text-xs font-bold tracking-widest uppercase mb-2">Folder Name</label>
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Instagram Ads, Q2 Campaign..."
               autoFocus
-              className="w-full bg-white/05 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:border-gold-500/40 transition-colors"
+              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-black placeholder-gray-400 focus:outline-none focus:border-yellow-400 transition-colors"
               onKeyDown={(e) => e.key === 'Enter' && name.trim() && onCreate(name.trim(), selectedColor)}
             />
           </div>
           <div>
-            <label className="block text-white/50 text-xs font-bold tracking-widest uppercase mb-2">Colour</label>
+            <label className="block text-gray-500 text-xs font-bold tracking-widest uppercase mb-2">Colour</label>
             <div className="flex gap-2">
               {FOLDER_COLORS.map((c) => (
                 <button
                   key={c}
                   onClick={() => setSelectedColor(c)}
                   className={`w-8 h-8 rounded-lg border-2 transition-all ${c.split(' ').slice(0, 2).join(' ')} ${
-                    selectedColor === c ? 'border-white/60 scale-110' : 'border-transparent'
+                    selectedColor === c ? 'border-gray-600 scale-110' : 'border-transparent'
                   }`}
                 />
               ))}
@@ -289,14 +289,14 @@ function CreateFolderModal({ onClose, onCreate }: { onClose: () => void; onCreat
         <div className="flex gap-3 mt-6">
           <button
             onClick={onClose}
-            className="flex-1 py-2.5 border border-white/10 text-white/50 hover:text-white/70 rounded-xl text-sm font-bold transition-colors"
+            className="flex-1 py-2.5 border border-gray-200 text-gray-500 hover:text-gray-700 rounded-xl text-sm font-bold transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={() => name.trim() && onCreate(name.trim(), selectedColor)}
             disabled={!name.trim()}
-            className="flex-1 py-2.5 bg-gold-500/20 hover:bg-gold-500/30 border border-gold-500/30 text-gold-400 rounded-xl text-sm font-bold transition-all disabled:opacity-40"
+            className="flex-1 py-2.5 bg-black hover:bg-gray-800 border border-black text-white rounded-xl text-sm font-bold transition-all disabled:opacity-40"
           >
             Create
           </button>
@@ -449,8 +449,8 @@ export default function AssetGalleryPage() {
 
   if (!authChecked) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-gold-400/30 border-t-gold-400 rounded-full animate-spin" />
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-gray-200 border-t-gray-600 rounded-full animate-spin" />
       </div>
     );
   }
@@ -470,20 +470,20 @@ export default function AssetGalleryPage() {
     : sidebarItems.find((s) => s.id === activeView)?.label ?? 'All Assets';
 
   return (
-    <div className="min-h-screen bg-black flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
-      <div className="bg-black border-b border-white/08 px-4 py-3 flex items-center justify-between flex-shrink-0">
+      <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
           <AppLogo />
           <div>
-            <h1 className="font-display text-xl font-700 text-white">Asset Gallery</h1>
-            <p className="text-white/30 text-xs">Organise · Favourite · Download your creative assets</p>
+            <h1 className="font-display text-xl font-700 text-black">Asset Gallery</h1>
+            <p className="text-gray-400 text-xs">Organise · Favourite · Download your creative assets</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
           <button
             onClick={() => router.push('/admin/creative-studio')}
-            className="flex items-center gap-2 px-4 py-2 bg-gold-500/15 hover:bg-gold-500/25 border border-gold-500/25 text-gold-400 rounded-xl text-sm font-bold transition-all"
+            className="flex items-center gap-2 px-4 py-2 bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 text-yellow-700 rounded-xl text-sm font-bold transition-all"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -492,7 +492,7 @@ export default function AssetGalleryPage() {
           </button>
           <button
             onClick={() => router.push('/admin/dashboard')}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-white/50 hover:text-white/70 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-gray-500 hover:text-gray-800 transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -504,18 +504,18 @@ export default function AssetGalleryPage() {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <aside className="w-56 bg-black border-r border-white/08 flex flex-col flex-shrink-0 overflow-y-auto">
+        <aside className="w-56 bg-white border-r border-gray-200 flex flex-col flex-shrink-0 overflow-y-auto">
           {/* Search */}
           <div className="p-3">
             <div className="relative">
-              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/25" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search assets..."
-                className="w-full bg-white/05 border border-white/08 rounded-lg pl-8 pr-3 py-2 text-xs text-white placeholder-white/25 focus:outline-none focus:border-white/20 transition-colors"
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg pl-8 pr-3 py-2 text-xs text-black placeholder-gray-400 focus:outline-none focus:border-gray-300 transition-colors"
               />
             </div>
           </div>
@@ -528,7 +528,7 @@ export default function AssetGalleryPage() {
                 onClick={() => setActiveView(item.id)}
                 className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm transition-all mb-0.5 ${
                   activeView === item.id
-                    ? 'bg-gold-500/15 text-gold-400' :'text-white/50 hover:text-white/70 hover:bg-white/05'
+                    ? 'bg-yellow-50 text-yellow-700 border border-yellow-200' :'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -538,7 +538,7 @@ export default function AssetGalleryPage() {
                   <span className="text-xs font-bold">{item.label}</span>
                 </div>
                 {item.count > 0 && (
-                  <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${activeView === item.id ? 'bg-gold-500/20 text-gold-400' : 'bg-white/08 text-white/30'}`}>
+                  <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${activeView === item.id ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-500'}`}>
                     {item.count}
                   </span>
                 )}
@@ -549,10 +549,10 @@ export default function AssetGalleryPage() {
           {/* Folders */}
           <div className="px-2 pb-2 flex-1">
             <div className="flex items-center justify-between px-3 py-2 mb-1">
-              <span className="text-white/25 text-xs font-bold tracking-widest uppercase">Folders</span>
+              <span className="text-gray-400 text-xs font-bold tracking-widest uppercase">Folders</span>
               <button
                 onClick={() => setShowCreateFolder(true)}
-                className="w-5 h-5 rounded flex items-center justify-center text-white/30 hover:text-white/60 hover:bg-white/08 transition-all"
+                className="w-5 h-5 rounded flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-all"
               >
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -561,7 +561,7 @@ export default function AssetGalleryPage() {
             </div>
 
             {folders.length === 0 && (
-              <p className="px-3 text-white/20 text-xs">No folders yet</p>
+              <p className="px-3 text-gray-400 text-xs">No folders yet</p>
             )}
 
             {folders.map((folder) => (
@@ -572,7 +572,7 @@ export default function AssetGalleryPage() {
                       value={editingFolderName}
                       onChange={(e) => setEditingFolderName(e.target.value)}
                       autoFocus
-                      className="flex-1 bg-white/05 border border-white/15 rounded px-2 py-1 text-xs text-white focus:outline-none"
+                      className="flex-1 bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs text-black focus:outline-none"
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') handleRenameFolder(folder.id);
                         if (e.key === 'Escape') { setEditingFolderId(null); setEditingFolderName(''); }
@@ -585,14 +585,14 @@ export default function AssetGalleryPage() {
                     onClick={() => setActiveView(folder.id)}
                     className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-bold transition-all mb-0.5 ${
                       activeView === folder.id
-                        ? 'bg-white/08 text-white/80' :'text-white/40 hover:text-white/60 hover:bg-white/05'
+                        ? 'bg-gray-100 text-black' :'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
                     }`}
                   >
                     <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
                     </svg>
                     <span className="flex-1 text-left truncate">{folder.name}</span>
-                    <span className="text-white/20 text-xs">
+                    <span className="text-gray-400 text-xs">
                       {assets.filter((a) => a.folderId === folder.id).length}
                     </span>
                   </button>
@@ -601,7 +601,7 @@ export default function AssetGalleryPage() {
                 <div className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-0.5">
                   <button
                     onClick={(e) => { e.stopPropagation(); setEditingFolderId(folder.id); setEditingFolderName(folder.name); }}
-                    className="w-5 h-5 rounded flex items-center justify-center text-white/30 hover:text-white/60 hover:bg-white/10 transition-all"
+                    className="w-5 h-5 rounded flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-all"
                   >
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -609,7 +609,7 @@ export default function AssetGalleryPage() {
                   </button>
                   <button
                     onClick={(e) => { e.stopPropagation(); handleDeleteFolder(folder.id); }}
-                    className="w-5 h-5 rounded flex items-center justify-center text-white/30 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                    className="w-5 h-5 rounded flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all"
                   >
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -622,20 +622,20 @@ export default function AssetGalleryPage() {
         </aside>
 
         {/* Main content */}
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto bg-gray-50">
           {/* Toolbar */}
-          <div className="sticky top-0 z-10 bg-black/90 backdrop-blur-sm border-b border-white/08 px-6 py-3 flex items-center justify-between gap-4">
+          <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <h2 className="text-white font-bold text-base">{viewTitle}</h2>
-              <span className="text-white/30 text-sm">{filteredAssets.length} asset{filteredAssets.length !== 1 ? 's' : ''}</span>
+              <h2 className="text-black font-bold text-base">{viewTitle}</h2>
+              <span className="text-gray-400 text-sm">{filteredAssets.length} asset{filteredAssets.length !== 1 ? 's' : ''}</span>
             </div>
 
             {selectedIds.size > 0 ? (
               <div className="flex items-center gap-2">
-                <span className="text-white/50 text-sm">{selectedIds.size} selected</span>
+                <span className="text-gray-500 text-sm">{selectedIds.size} selected</span>
                 <button
                   onClick={handleBulkDownload}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-gold-500/15 hover:bg-gold-500/25 border border-gold-500/25 text-gold-400 rounded-lg text-xs font-bold transition-all"
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 text-yellow-700 rounded-lg text-xs font-bold transition-all"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -644,16 +644,16 @@ export default function AssetGalleryPage() {
                 </button>
                 {folders.length > 0 && (
                   <div className="relative group">
-                    <button className="flex items-center gap-1.5 px-3 py-1.5 bg-white/05 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white/80 rounded-lg text-xs font-bold transition-all">
+                    <button className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-600 hover:text-black rounded-lg text-xs font-bold transition-all">
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
                       </svg>
                       Move to Folder
                     </button>
-                    <div className="absolute right-0 top-full mt-1 w-40 bg-[#111] border border-white/10 rounded-xl shadow-2xl overflow-hidden z-20 hidden group-hover:block">
+                    <div className="absolute right-0 top-full mt-1 w-40 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-20 hidden group-hover:block">
                       <button
                         onClick={() => handleBulkMoveToFolder(null)}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-white/50 hover:text-white hover:bg-white/05 transition-colors"
+                        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-500 hover:text-black hover:bg-gray-50 transition-colors"
                       >
                         No folder
                       </button>
@@ -661,7 +661,7 @@ export default function AssetGalleryPage() {
                         <button
                           key={f.id}
                           onClick={() => handleBulkMoveToFolder(f.id)}
-                          className="w-full flex items-center gap-2 px-3 py-2 text-xs text-white/50 hover:text-white hover:bg-white/05 transition-colors"
+                          className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-500 hover:text-black hover:bg-gray-50 transition-colors"
                         >
                           {f.name}
                         </button>
@@ -671,7 +671,7 @@ export default function AssetGalleryPage() {
                 )}
                 <button
                   onClick={handleBulkDelete}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 rounded-lg text-xs font-bold transition-all"
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-red-50 hover:bg-red-100 border border-red-200 text-red-600 rounded-lg text-xs font-bold transition-all"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -680,7 +680,7 @@ export default function AssetGalleryPage() {
                 </button>
                 <button
                   onClick={() => setSelectedIds(new Set())}
-                  className="text-white/30 hover:text-white/60 text-xs transition-colors"
+                  className="text-gray-400 hover:text-gray-700 text-xs transition-colors"
                 >
                   Clear
                 </button>
@@ -689,7 +689,7 @@ export default function AssetGalleryPage() {
               <button
                 onClick={handleSelectAll}
                 disabled={filteredAssets.length === 0}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-white/05 hover:bg-white/10 border border-white/08 text-white/50 hover:text-white/70 rounded-lg text-xs font-bold transition-all disabled:opacity-30"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-500 hover:text-gray-800 rounded-lg text-xs font-bold transition-all disabled:opacity-30"
               >
                 Select All
               </button>
@@ -700,21 +700,21 @@ export default function AssetGalleryPage() {
           <div className="p-6">
             {filteredAssets.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-24 text-center">
-                <div className="w-20 h-20 rounded-2xl bg-white/03 border border-white/08 flex items-center justify-center mb-5">
-                  <svg className="w-10 h-10 text-white/15" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                <div className="w-20 h-20 rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center mb-5">
+                  <svg className="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                   </svg>
                 </div>
-                <p className="text-white/40 font-bold text-base mb-2">
+                <p className="text-gray-500 font-bold text-base mb-2">
                   {searchQuery ? 'No assets match your search' : activeView === 'favorites' ? 'No favourites yet' : 'No assets here yet'}
                 </p>
-                <p className="text-white/20 text-sm mb-6">
+                <p className="text-gray-400 text-sm mb-6">
                   {searchQuery ? 'Try a different search term' : 'Generate assets in the Creative Studio and save them here'}
                 </p>
                 {!searchQuery && (
                   <button
                     onClick={() => router.push('/admin/creative-studio')}
-                    className="flex items-center gap-2 px-5 py-2.5 bg-gold-500/15 hover:bg-gold-500/25 border border-gold-500/25 text-gold-400 rounded-xl text-sm font-bold transition-all"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 text-yellow-700 rounded-xl text-sm font-bold transition-all"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />

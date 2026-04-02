@@ -1,9 +1,11 @@
-// Deployed: 2026-03-31
+// Deployed: 2026-04-02
 import { serve } from "https://deno.land/std@0.192.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!);
+const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
+  apiVersion: "2024-06-20",
+});
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
@@ -184,7 +186,6 @@ serve(async (req) => {
             stripe_charge_id: paymentIntent.latest_charge as string,
             currency,
             amount,
-            plan: "monthly",
             trial_end: null,
             current_period_start: new Date().toISOString(),
             current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -307,7 +308,6 @@ serve(async (req) => {
               payment_status: subStatus === "trialing" ? "pending" : "succeeded",
               currency: sessionCurrency,
               amount: sessionAmount,
-              plan: "monthly",
               current_period_start: periodStart,
               current_period_end: periodEnd,
               cancel_at_period_end: false,
@@ -390,6 +390,38 @@ serve(async (req) => {
             await recordPayment(pi, sub.user_id);
           } catch (_) { /* non-critical */ }
         }
+
+        // Send invoice confirmation email for renewal invoices (not the first checkout)
+        if (invoice.billing_reason === "subscription_cycle" || invoice.billing_reason === "subscription_update") {
+          const { data: profileInv } = await supabase
+            .from("user_profiles")
+            .select("email, full_name")
+            .eq("id", sub.user_id)
+            .single();
+
+          if (profileInv?.email) {
+            const invCurrency = (invoice.currency || "gbp").toUpperCase();
+            const invAmount = CURRENCY_AMOUNTS[invCurrency] ?? (invoice.amount_paid ? invoice.amount_paid / 100 : 35);
+            const pStart = new Date(stripeSub.current_period_start * 1000).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+            const pEnd = new Date(stripeSub.current_period_end * 1000).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+            await fetch(`${supabaseUrl}/functions/v1/send-email`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+              },
+              body: JSON.stringify({
+                type: "invoice_confirmation",
+                to: profileInv.email,
+                fullName: profileInv.full_name || profileInv.email,
+                currency: invCurrency,
+                amount: invAmount,
+                periodStart: pStart,
+                periodEnd: pEnd,
+              }),
+            });
+          }
+        }
         break;
       }
 
@@ -467,6 +499,32 @@ serve(async (req) => {
             updated_at: new Date().toISOString(),
           })
           .eq("user_id", userId);
+
+        // Send subscription status update email
+        const { data: profileSub } = await supabase
+          .from("user_profiles")
+          .select("email, full_name")
+          .eq("id", userId)
+          .single();
+
+        if (profileSub?.email) {
+          const pEnd = new Date(stripeSub.current_period_end * 1000).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+          await fetch(`${supabaseUrl}/functions/v1/send-email`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+            },
+            body: JSON.stringify({
+              type: "subscription_updated",
+              to: profileSub.email,
+              fullName: profileSub.full_name || profileSub.email,
+              newStatus: status,
+              cancelAtPeriodEnd: stripeSub.cancel_at_period_end,
+              periodEnd: pEnd,
+            }),
+          });
+        }
         break;
       }
 
@@ -483,6 +541,28 @@ serve(async (req) => {
             updated_at: new Date().toISOString(),
           })
           .eq("user_id", userId);
+
+        // Send subscription cancelled email
+        const { data: profileCanceled } = await supabase
+          .from("user_profiles")
+          .select("email, full_name")
+          .eq("id", userId)
+          .single();
+
+        if (profileCanceled?.email) {
+          await fetch(`${supabaseUrl}/functions/v1/send-email`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+            },
+            body: JSON.stringify({
+              type: "subscription_canceled",
+              to: profileCanceled.email,
+              fullName: profileCanceled.full_name || profileCanceled.email,
+            }),
+          });
+        }
         break;
       }
 

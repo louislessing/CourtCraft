@@ -183,12 +183,12 @@ export default function OnboardingPage() {
     : ALL_TOOLS.slice(0, 4);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-navy-950 via-navy-900 to-navy-800 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-4 border-b border-navy-700/50">
+      <header className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
         <div className="flex items-center gap-3">
           <AppLogo size={32} iconName="ScaleIcon" />
-          <span className="font-display font-900 text-xl text-white">
+          <span className="font-display font-900 text-xl text-gray-900">
             Court<span className="text-gold-400">Craft</span>
           </span>
         </div>
@@ -201,13 +201,13 @@ export default function OnboardingPage() {
                   s < step
                     ? 'bg-green-500 text-white'
                     : s === step
-                    ? 'bg-gold-500 text-navy-900' :'bg-navy-700 text-navy-400'
+                    ? 'bg-gold-500 text-white' :'bg-gray-200 text-gray-500'
                 }`}
               >
                 {s < step ? <Icon name="CheckIcon" size={12} /> : s}
               </div>
               {s < 3 && (
-                <div className={`w-8 h-px transition-all duration-300 ${s < step ? 'bg-green-500' : 'bg-navy-700'}`} />
+                <div className={`w-8 h-px transition-all duration-300 ${s < step ? 'bg-green-500' : 'bg-gray-200'}`} />
               )}
             </div>
           ))}
@@ -219,14 +219,14 @@ export default function OnboardingPage() {
         {step === 1 && (
           <div className="w-full space-y-8 animate-fade-in">
             <div className="text-center space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-600 mb-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-600 text-xs font-600 mb-2">
                 <Icon name="SparklesIcon" size={12} />
                 Step 1 of 3 — Personalise Your Experience
               </div>
-              <h1 className="font-display font-900 text-3xl sm:text-4xl text-white">
+              <h1 className="font-display font-900 text-3xl sm:text-4xl text-gray-900">
                 Welcome, {firstName}! 👋
               </h1>
-              <p className="text-navy-300 text-base max-w-lg mx-auto leading-relaxed">
+              <p className="text-gray-500 text-base max-w-lg mx-auto leading-relaxed">
                 Tell us about your case so we can tailor CourtCraft to your specific legal situation.
               </p>
             </div>
@@ -239,29 +239,29 @@ export default function OnboardingPage() {
                   onClick={() => setSelectedCaseType(ct.id)}
                   className={`text-left p-4 rounded-2xl border-2 transition-all duration-200 group ${
                     selectedCaseType === ct.id
-                      ? 'border-gold-500 bg-gold-500/10' :'border-navy-600 bg-navy-800/50 hover:border-navy-500 hover:bg-navy-700/50'
+                      ? 'border-gold-500 bg-gold-500/10' :'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <div
                       className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
-                        selectedCaseType === ct.id ? 'bg-gold-500 text-navy-900' : 'bg-navy-700 text-navy-300 group-hover:bg-navy-600'
+                        selectedCaseType === ct.id ? 'bg-gold-500 text-white' : 'bg-gray-100 text-gray-500 group-hover:bg-gray-200'
                       }`}
                     >
                       <Icon name={ct.icon} size={20} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
-                        <p className={`font-700 text-sm ${selectedCaseType === ct.id ? 'text-gold-400' : 'text-white'}`}>
+                        <p className={`font-700 text-sm ${selectedCaseType === ct.id ? 'text-gold-600' : 'text-gray-900'}`}>
                           {ct.label}
                         </p>
                         {selectedCaseType === ct.id && (
                           <div className="w-5 h-5 rounded-full bg-gold-500 flex items-center justify-center flex-shrink-0">
-                            <Icon name="CheckIcon" size={10} className="text-navy-900" />
+                            <Icon name="CheckIcon" size={10} className="text-white" />
                           </div>
                         )}
                       </div>
-                      <p className="text-navy-400 text-xs mt-1 leading-relaxed">{ct.description}</p>
+                      <p className="text-gray-500 text-xs mt-1 leading-relaxed">{ct.description}</p>
                     </div>
                   </div>
                 </button>
@@ -276,7 +276,7 @@ export default function OnboardingPage() {
                 className="btn-gold px-8 py-3 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 Continue
-                <Icon name="ArrowRightIcon" size={16} className="text-navy-900" />
+                <Icon name="ArrowRightIcon" size={16} className="text-white" />
               </button>
             </div>
           </div>
@@ -286,15 +286,15 @@ export default function OnboardingPage() {
         {step === 2 && (
           <div className="w-full space-y-8 animate-fade-in">
             <div className="text-center space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-600 mb-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-600 text-xs font-600 mb-2">
                 <Icon name="RectangleStackIcon" size={12} />
                 Step 2 of 3 — Your Toolkit
               </div>
-              <h1 className="font-display font-900 text-3xl sm:text-4xl text-white">
+              <h1 className="font-display font-900 text-3xl sm:text-4xl text-gray-900">
                 Tools built for your case
               </h1>
-              <p className="text-navy-300 text-base max-w-lg mx-auto leading-relaxed">
-                Based on your <span className="text-gold-400 font-700">{selectedCaseType}</span> case, here are the tools that will help you most.
+              <p className="text-gray-500 text-base max-w-lg mx-auto leading-relaxed">
+                Based on your <span className="text-gold-600 font-700">{selectedCaseType}</span> case, here are the tools that will help you most.
               </p>
             </div>
 
@@ -304,27 +304,27 @@ export default function OnboardingPage() {
                   key={tool.name}
                   className={`p-5 rounded-2xl border transition-all ${
                     tool.highlight
-                      ? 'border-gold-500/50 bg-gold-500/5' :'border-navy-600 bg-navy-800/50'
+                      ? 'border-gold-500/50 bg-gold-500/5' :'border-gray-200 bg-white'
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <div
                       className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                        tool.highlight ? 'bg-gold-500 text-navy-900' : 'bg-navy-700 text-navy-300'
+                        tool.highlight ? 'bg-gold-500 text-white' : 'bg-gray-100 text-gray-500'
                       }`}
                     >
                       <Icon name={tool.icon} size={20} />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <p className="font-700 text-sm text-white">{tool.name}</p>
+                        <p className="font-700 text-sm text-gray-900">{tool.name}</p>
                         {tool.highlight && (
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-gold-500/20 text-gold-400 font-600">
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-gold-500/20 text-gold-600 font-600">
                             Recommended
                           </span>
                         )}
                       </div>
-                      <p className="text-navy-400 text-xs mt-1 leading-relaxed">{tool.description}</p>
+                      <p className="text-gray-500 text-xs mt-1 leading-relaxed">{tool.description}</p>
                     </div>
                   </div>
                 </div>
@@ -332,9 +332,9 @@ export default function OnboardingPage() {
             </div>
 
             {/* All tools note */}
-            <div className="flex items-center gap-3 p-4 rounded-2xl bg-navy-800/50 border border-navy-600">
-              <Icon name="InformationCircleIcon" size={18} className="text-navy-400 flex-shrink-0" />
-              <p className="text-navy-300 text-sm">
+            <div className="flex items-center gap-3 p-4 rounded-2xl bg-gray-50 border border-gray-200">
+              <Icon name="InformationCircleIcon" size={18} className="text-gray-400 flex-shrink-0" />
+              <p className="text-gray-600 text-sm">
                 All tools are available to you at any time from your dashboard. These are just the ones most relevant to your case type.
               </p>
             </div>
@@ -343,7 +343,7 @@ export default function OnboardingPage() {
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="text-navy-400 hover:text-white text-sm font-600 transition-colors flex items-center gap-1.5"
+                className="text-gray-500 hover:text-gray-900 text-sm font-600 transition-colors flex items-center gap-1.5"
               >
                 <Icon name="ArrowLeftIcon" size={14} />
                 Back
@@ -354,7 +354,7 @@ export default function OnboardingPage() {
                 className="btn-gold px-8 py-3"
               >
                 Continue
-                <Icon name="ArrowRightIcon" size={16} className="text-navy-900" />
+                <Icon name="ArrowRightIcon" size={16} className="text-white" />
               </button>
             </div>
           </div>
@@ -364,22 +364,22 @@ export default function OnboardingPage() {
         {step === 3 && (
           <div className="w-full space-y-8 animate-fade-in">
             <div className="text-center space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-600 mb-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 text-xs font-600 mb-2">
                 <Icon name="RocketLaunchIcon" size={12} />
                 Step 3 of 3 — You're Ready!
               </div>
-              <h1 className="font-display font-900 text-3xl sm:text-4xl text-white">
+              <h1 className="font-display font-900 text-3xl sm:text-4xl text-gray-900">
                 Let's get started 🚀
               </h1>
-              <p className="text-navy-300 text-base max-w-lg mx-auto leading-relaxed">
+              <p className="text-gray-500 text-base max-w-lg mx-auto leading-relaxed">
                 Your CourtCraft account is set up. Choose where you'd like to begin — you can always change direction from your dashboard.
               </p>
             </div>
 
             {error && (
-              <div className="flex items-center gap-3 p-3 rounded-2xl bg-red-500/10 border border-red-500/20">
-                <Icon name="ExclamationCircleIcon" size={16} className="text-red-400 flex-shrink-0" />
-                <p className="text-red-400 text-sm">{error}</p>
+              <div className="flex items-center gap-3 p-3 rounded-2xl bg-red-50 border border-red-200">
+                <Icon name="ExclamationCircleIcon" size={16} className="text-red-500 flex-shrink-0" />
+                <p className="text-red-600 text-sm">{error}</p>
               </div>
             )}
 
@@ -390,22 +390,22 @@ export default function OnboardingPage() {
                   type="button"
                   disabled={saving}
                   onClick={() => handleComplete(action.href)}
-                  className="w-full text-left p-5 rounded-2xl border border-navy-600 bg-navy-800/50 hover:border-gold-500/50 hover:bg-navy-700/50 transition-all duration-200 group disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full text-left p-5 rounded-2xl border border-gray-200 bg-white hover:border-gold-500/50 hover:bg-gray-50 transition-all duration-200 group disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-navy-700 group-hover:bg-gold-500/20 flex items-center justify-center flex-shrink-0 transition-colors">
-                      <Icon name={action.icon} size={22} className="text-navy-300 group-hover:text-gold-400 transition-colors" />
+                    <div className="w-12 h-12 rounded-xl bg-gray-100 group-hover:bg-gold-500/20 flex items-center justify-center flex-shrink-0 transition-colors">
+                      <Icon name={action.icon} size={22} className="text-gray-500 group-hover:text-gold-500 transition-colors" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-700 text-white text-sm">{action.label}</p>
-                      <p className="text-navy-400 text-xs mt-0.5">{action.description}</p>
+                      <p className="font-700 text-gray-900 text-sm">{action.label}</p>
+                      <p className="text-gray-500 text-xs mt-0.5">{action.description}</p>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      <span className="text-xs text-gold-400 font-600 hidden sm:block">{action.cta}</span>
+                      <span className="text-xs text-gold-600 font-600 hidden sm:block">{action.cta}</span>
                       {saving ? (
                         <div className="w-5 h-5 border-2 border-gold-500 border-t-transparent rounded-full animate-spin" />
                       ) : (
-                        <Icon name="ArrowRightIcon" size={16} className="text-navy-500 group-hover:text-gold-400 transition-colors" />
+                        <Icon name="ArrowRightIcon" size={16} className="text-gray-400 group-hover:text-gold-500 transition-colors" />
                       )}
                     </div>
                   </div>
@@ -418,7 +418,7 @@ export default function OnboardingPage() {
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                className="text-navy-400 hover:text-white text-sm font-600 transition-colors flex items-center gap-1.5"
+                className="text-gray-500 hover:text-gray-900 text-sm font-600 transition-colors flex items-center gap-1.5"
               >
                 <Icon name="ArrowLeftIcon" size={14} />
                 Back
@@ -427,7 +427,7 @@ export default function OnboardingPage() {
                 type="button"
                 disabled={saving}
                 onClick={() => handleComplete('/dashboard')}
-                className="text-navy-400 hover:text-white text-sm transition-colors disabled:opacity-40"
+                className="text-gray-500 hover:text-gray-900 text-sm transition-colors disabled:opacity-40"
               >
                 Skip to dashboard →
               </button>
